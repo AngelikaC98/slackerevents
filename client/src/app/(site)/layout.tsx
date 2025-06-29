@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 import { useConnectionStatus } from "../../hooks/connectionStatus";
 import Navigation from "@/components/Navigation/navigation";
+import { usePathname } from "next/navigation";
 
 // -----------------------------
 // Constants
@@ -22,10 +23,14 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 export default function SiteLayout({ children }: { children: ReactNode }) {
   // Check backend connection status
   const status = useConnectionStatus(apiUrl);
+  const pathname = usePathname();
+  const hideNavigation = pathname?.startsWith("/all-events/");
 
   // Show loading or error if backend is not ready
   if (status === "checking")
-    return <p className="text-center mt-10">🔄 Checking backend connection...</p>;
+    return (
+      <p className="text-center mt-10">🔄 Checking backend connection...</p>
+    );
 
   if (status === "disconnected") {
     return (
@@ -38,12 +43,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
 
   // Render layout with session and navigation
   return (
-
-      <SessionProvider>
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-      </SessionProvider>
-
+    <SessionProvider>
+      {!hideNavigation && <Navigation />}
+      <main className="min-h-screen">{children}</main>
+    </SessionProvider>
   );
-
 }
