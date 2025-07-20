@@ -6,10 +6,11 @@ import { useState } from "react";
 import { useCategories } from "@/hooks/useCategories";
 import Button from "@/components/UI/UniversalButton/button";
 import Link from "next/link";
+import PaymentModal from "@/components/PaymentModal/page";
 
 // ------------ Props ---------------
 type EventsProps = {
-  onCheckout: (data: { event: Event; qty: number; total: number }) => void;
+  // Remove onCheckout since we'll handle it internally now
 };
 
 /**
@@ -17,13 +18,23 @@ type EventsProps = {
  * ------
  * Displays a list of events with category filtering and ticket purchase.
  */
-export default function Events({ onCheckout }: EventsProps) {
+export default function Events() {
   // State for selected category filter
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
+
+  // State for PaymentModal
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   // Fetch categories and events
   const { data: categories, loading: loadingCategories } = useCategories();
-  const { data: events, loading: loadingEvents, error } = useEvents(
+  const {
+    data: events,
+    loading: loadingEvents,
+    error,
+  } = useEvents(
     selectedCategory ? { category: selectedCategory.category_name } : undefined
   );
 
@@ -34,11 +45,12 @@ export default function Events({ onCheckout }: EventsProps) {
 
   // Sort categories by their sort order
   const sortedCategories = [...(categories ?? [])].sort(
-    (a, b) => (typeof a.sort === "number" ? a.sort : Infinity) -
-              (typeof b.sort === "number" ? b.sort : Infinity)
+    (a, b) =>
+      (typeof a.sort === "number" ? a.sort : Infinity) -
+      (typeof b.sort === "number" ? b.sort : Infinity)
   );
 
-// ------------ Render ---------------
+  // ------------ Render ---------------
   return (
     <div>
       {/* Category filter buttons */}
@@ -83,10 +95,10 @@ export default function Events({ onCheckout }: EventsProps) {
               <p>{event.venue?.address}</p>
               <p className="text-sm text-gray-600 mb-2">
                 {new Date(event.start_date ?? "").toLocaleDateString("IS", {
-                  day:   "numeric",
+                  day: "numeric",
                   month: "long",
-                  hour:  "2-digit",
-                  minute:"2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
                 {event.end_date ? ` → ${event.end_date.split("T")[0]}` : ""}
               </p>
@@ -96,13 +108,10 @@ export default function Events({ onCheckout }: EventsProps) {
             <div className="flex gap-2 flex-wrap mt-2 items-center">
               <Button
                 variant="primary"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
-                  onCheckout({
-                    event,
-                    qty: 1,
-                    total: event.price ?? 0,
-                  });
+                  setSelectedEvent(event);
+                  setShowPaymentModal(true);
                 }}
               >
                 Buy Ticket
@@ -120,6 +129,34 @@ export default function Events({ onCheckout }: EventsProps) {
           </div>
         ))}
       </div>
+
+      {/* PaymentModal */}
+      {showPaymentModal && selectedEvent && (
+        <PaymentModal
+          eventData={{
+            id: selectedEvent.id,
+            title: selectedEvent.title,
+            price: selectedEvent.price || 0,
+            venue: `${selectedEvent.venue?.place || ""}, ${
+              selectedEvent.venue?.city?.city_name || ""
+            }`,
+            date: new Date(selectedEvent.start_date || "").toLocaleDateString(
+              "en-US",
+              {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
+            ),
+          }}
+          onClose={() => {
+            setShowPaymentModal(false);
+            setSelectedEvent(null);
+          }}
+        />
+      )}
     </div>
   );
 }
