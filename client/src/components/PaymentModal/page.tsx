@@ -15,12 +15,29 @@ const stripePromise = loadStripe(
   "pk_test_51RTMkMBCkOUZ2CSsO3AAqHb7SKDUSmckDKmnJQIhXZZGu1vMWbpG5AdlDHcyN3WNEQMVt0gqtNTUQDwrV0xRnPew00ZriUekAa"
 );
 
+interface EventData {
+  id: string | number;
+  title: string;
+  price: number;
+  venue: string;
+  date: string;
+}
+
+interface PaymentModalProps {
+  eventData?: EventData;
+  onClose?: () => void;
+}
+
 function StripePaymentForm({
   count,
   setCount,
+  eventData,
+  onClose,
 }: {
   count: number;
   setCount: (count: number) => void;
+  eventData?: EventData;
+  onClose?: () => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -36,40 +53,27 @@ function StripePaymentForm({
     }
 
     setLoading(true);
-    console.log("Starting payment process...");
 
     try {
-      // Create payment intent
-      console.log("Creating payment intent for amount:", count * 1300);
+      const ticketPrice = eventData?.price || 1300;
+      const totalAmount = count * ticketPrice;
 
       const res = await fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: count * 1300 }),
+        body: JSON.stringify({ amount: totalAmount }),
       });
 
-      console.log("API Response status:", res.status);
-      console.log("API Response ok:", res.ok);
-
       if (!res.ok) {
-        const errorText = await res.text();
-        console.error("API Error response:", errorText);
         throw new Error(`Failed to create payment intent: ${res.status}`);
       }
 
-      const responseData = await res.json();
-      console.log("API Response data:", responseData);
-
-      const { clientSecret } = responseData;
+      const { clientSecret } = await res.json();
 
       if (!clientSecret) {
-        console.error("No client secret in response:", responseData);
         throw new Error("No client secret received");
       }
 
-      console.log("Client secret received, confirming payment...");
-
-      // Confirm payment
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         clientSecret,
         {
@@ -82,25 +86,18 @@ function StripePaymentForm({
         }
       );
 
-      console.log("Payment confirmation result:", { error, paymentIntent });
-
       setLoading(false);
 
       if (error) {
-        console.error("Payment error:", error);
         alert(`Payment failed: ${error.message}`);
       } else if (paymentIntent && paymentIntent.status === "succeeded") {
         alert("Payment successful!");
         router.push("/success");
       } else {
-        console.log("Unexpected payment status:", paymentIntent?.status);
         alert("Payment was not completed. Please try again.");
       }
     } catch (error) {
       setLoading(false);
-      console.error("Caught error in payment process:", error);
-
-      // More specific error message
       if (error instanceof Error) {
         alert(`Payment failed: ${error.message}`);
       } else {
@@ -131,7 +128,7 @@ function StripePaymentForm({
       <button
         className={styles.closeButton}
         aria-label="Close"
-        onClick={() => router.push("/")}
+        onClick={onClose || (() => router.push("/"))}
       >
         <svg width="32" height="32" viewBox="0 0 32 32">
           <path
@@ -144,7 +141,27 @@ function StripePaymentForm({
       </button>
 
       {/* Title */}
-      <h2 className={styles.title}>Payment method</h2>
+      <h2 className={styles.title}>
+        {eventData ? `Buy Ticket - ${eventData.title}` : "Payment method"}
+      </h2>
+
+      {/* Event Info Display */}
+      {eventData && (
+        <div className={styles.eventInfo}>
+          <p>
+            <strong>Event:</strong> {eventData.title}
+          </p>
+          <p>
+            <strong>Date:</strong> {eventData.date}
+          </p>
+          <p>
+            <strong>Venue:</strong> {eventData.venue}
+          </p>
+          <p>
+            <strong>Price:</strong> {eventData.price} ISK per ticket
+          </p>
+        </div>
+      )}
 
       {/* Form */}
       <form onSubmit={handlePay}>
@@ -203,7 +220,9 @@ function StripePaymentForm({
           >
             +
           </button>
-          <span className={styles.ticketPrice}>{count * 1300} kr</span>
+          <span className={styles.ticketPrice}>
+            {count * (eventData?.price || 1300)} kr
+          </span>
         </div>
 
         {/* Book Button */}
@@ -242,14 +261,31 @@ function StripePaymentForm({
   );
 }
 
-export default function PaymentModal() {
-  const [count, setCount] = useState(2);
+export default function PaymentModal({
+  eventData,
+  onClose,
+}: PaymentModalProps) {
+  const [count, setCount] = useState(1);
+  const router = useRouter();
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <Elements stripe={stripePromise}>
-          <StripePaymentForm count={count} setCount={setCount} />
+          <StripePaymentForm
+            count={count}
+            setCount={setCount}
+            eventData={eventData}
+            onClose={handleClose}
+          />
         </Elements>
       </div>
     </div>
