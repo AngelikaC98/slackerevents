@@ -131,7 +131,7 @@ const EventDetail: React.FC = () => {
 
               {/* ---------- Section Bottom ---------- */}
               <div className="flex flex-col p-6 items-center w-full pb-6  flex-center  ">
-                <h2 className=" flex flex-start font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
+                <h2 className=" flex  font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
                   Description
                 </h2>
 
@@ -140,8 +140,8 @@ const EventDetail: React.FC = () => {
                   dangerouslySetInnerHTML={{ __html: event.description }}
                 />
               </div>
-              <div className="flex justify-center gap-4 flex-col">
-                <div className="w-[320px] sm:w-[400px] justify-between md:w-[600px] lg:w-[700px] flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter  gap-6">
+              <div className="flex justify-center items-center  flex-col">
+                <div className=" items-center w-[320px] sm:w-[400px] justify-between md:w-[600px] lg:w-[700px] flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter">
                   <TicketCounter
                     pricePerTicket={event.price || 0}
                     eventId={String(event.id)}
