@@ -51,7 +51,7 @@ const EventDetail: React.FC = () => {
     day: "numeric",
     month: "long",
   });
- 
+
   const timeString = date.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -64,7 +64,7 @@ const EventDetail: React.FC = () => {
         onClick={() => router.back()}
         className="absolute top-4 left-4 z-10 text-[var(--color-acidYellow)]"
       >
-        ← 
+        ←
       </button>
       <div className=" flex justify-center items-center flex-col">
         <div className="w-full flex flex-col items-center">
@@ -74,16 +74,14 @@ const EventDetail: React.FC = () => {
             <div className=" relative w-full  lg:h-[600px]  ">
               <ImageUrlorID src={event.image} alt={event.title} />
 
-
-
-
-
               {/* ---------- Section Middle ---------- */}
-              <div className="  w-[320px] gap-2 pt-2 pb-4 px-4  h-auto min-h-[300px]
-               sm:w-[400px]   md:w-[600px] lg:w-[700px]
-                rounded-2xl  	absolute bottom-[-100px] left-1/2 transform -translate-x-1/2 translate-y-1/2 
-              bg-[var(--color-black70)] backdrop-blur-[14px]   flex flex-col justify-center items-left  ">
-                <div className="flex text-left flex-col gap-2  ">
+              <div
+                className="  w-[320px] p-4 gap-4  h-auto lg:h-[380px]
+    sm:w-[400px] md:w-[600px] lg:w-[800px]
+    rounded-2xl bg-[var(--blur-colorDark)] backdrop-blur-[10px] backdrop:filter
+    flex flex-col justify-between items-left z-10 -mt-[60px] mx-auto relative "
+              >
+                <div className="flex flex-col gap-4 justify-between ">
                   <h2 className="font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
                     {event.title}
                   </h2>
@@ -93,78 +91,80 @@ const EventDetail: React.FC = () => {
                       ? `Price: ${(event.price / 1000).toFixed(3)} ISK`
                       : "Gratis"}
                   </p>
-                </div>
 
-                <div className="flex justify-between">
-                  <div className="flex items-center  gap-2 sm:gap-4 md:gap-4 lg:gap-6  ">
-                    <Location src={location} alt="Location" className="
-                    " />
-                    <div className="text-[var(--color-text)] flex flex-col items-start gap-2">
-                      <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">{event.venue?.place} </p>
-                      <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">
-                        {event.venue?.city?.city_name ?? "No city specified"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <p className="flex flex-col text-[var(--color-text)] ">
-                    <div className="flex items-center gap-2 sm:gap-4 md:gap-4 lg:gap-6">
-                      <Schedule src={Schedule} alt="Schedule" />
-                      <div className="flex flex-col items-start gap-2">
+                  <div className="flex justify-between">
+                    <div className="flex items-center  gap-4 sm:gap-4 md:gap-4 lg:gap-6  ">
+                      <Location src={location} alt="Location" />
+                      <div className="text-[var(--color-text)] flex flex-col items-start gap-2">
                         <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">
-                         {dateString}
+                          {event.venue?.place}{" "}
                         </p>
-                        <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">{timeString}</p>
-                        
+                        <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">
+                          {event.venue?.city?.city_name ?? "No city specified"}
+                        </p>
                       </div>
                     </div>
-                  </p>
-                </div>
 
-                {event.spotify_url && (
-                  <div className="">
-                    <MusicEmbed embedCode={event.spotify_url} />
+                    <div className="flex flex-col text-[var(--color-text)] ">
+                      <div className="flex items-center gap-4 sm:gap-4 md:gap-4 lg:gap-6 ">
+                        <Schedule src={Schedule} alt="Schedule" />
+                        <div className="flex flex-col items-start gap-2">
+                          <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">
+                            {dateString}
+                          </p>
+                          <p className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]">
+                            {timeString}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
+                <div className="mt-auto">
+                  {event.spotify_url && (
+                    <div className="">
+                      <MusicEmbed embedCode={event.spotify_url} />
+                    </div>
+                  )}
+                </div>
               </div>
-              
+
+              {/* ---------- Section Bottom ---------- */}
+              <div className="flex flex-col p-6 items-center w-full pb-6  flex-center  ">
+                <h2 className=" flex flex-start font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
+                  Description
+                </h2>
+
+                <div
+                  className="text-[14px] w-[320px] sm:w-[400px] md:w-[600px] lg:w-[700px] text-[var(--color-text)]"
+                  dangerouslySetInnerHTML={{ __html: event.description }}
+                />
+              </div>
+              <div className="flex justify-center gap-4 flex-col">
+                <div className="w-[320px] sm:w-[400px] justify-between md:w-[600px] lg:w-[700px] flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter  gap-6">
+                  <TicketCounter
+                    pricePerTicket={event.price || 0}
+                    eventId={String(event.id)}
+                    onChange={(newQty, newTotal) => {
+                      setQty(newQty);
+                      setTotal(newTotal);
+                    }}
+                  />
+                  <Button
+                    variant="secondary"
+                    onClick={handleBuyTicket}
+                    disabled={qty < 1}
+                  >
+                    Buy Ticket
+                  </Button>
+                </div>
+              </div>
             </div>
           ) : (
             <p className="text-[var(--color-text)] text-center">
               No media selected
             </p>
           )}
-          
-        </div>
-
-        {/* ---------- Section Bottom ---------- */}
-        <div className=" w-full flex flex-center items-center justify-end  flex-col h-[450px]">
-        <div className="flex justify-center flex-col">
-          <h2 className=" font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">Description</h2>
-
-          <div
-            className="text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px] text-[var(--color-text)]"
-            dangerouslySetInnerHTML={{ __html: event.description }}
-          />
-</div>
-<div className="flex   justify-center items-center gap-20">
-          <TicketCounter 
-            pricePerTicket={event.price || 0}
-            eventId={String(event.id)}
-            onChange={(newQty, newTotal) => {
-              setQty(newQty);
-              setTotal(newTotal);
-            }}
-          />
-
-          <Button
-            variant="secondary"
-            onClick={handleBuyTicket}
-            disabled={qty < 1}
-          >
-            Buy Ticket
-          </Button>
-        </div>
         </div>
 
         {showModal && (
