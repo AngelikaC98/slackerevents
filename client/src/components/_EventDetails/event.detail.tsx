@@ -27,10 +27,12 @@ const EventDetail: React.FC = () => {
 
   const { data: events, loading, error } = useEvents();
 
+
   const [qty, setQty] = useState(0);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+
 
   const event = events?.find((e: Event) => String(e.id) === id);
   if (loading) return <p>Loading events...</p>;
