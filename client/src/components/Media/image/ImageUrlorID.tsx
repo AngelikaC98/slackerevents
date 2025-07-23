@@ -22,12 +22,11 @@ const ImageUrlorID: React.FC<Props> = ({ src, alt }) => {
 
 
   return (
-    <div className="relative w-full aspect-video overflow-hidden">
+    <div  >
       <img
         src={imageUrl}
         alt={alt}
-        style={{ display: "block", width: "100%", height: "auto", objectFit: "cover" }}
-      />
+        className="w-full h-full  object-cover sm:h-full md:h-full lg:h-[600px] "/>
     </div>
   );
 };

@@ -18,7 +18,7 @@ const variants = {
 const Button = ({
   children,
   variant = "default",
-  className = "",
+  className = "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)] h-[38px] w-[320px] sm:w-[400px] md:w-[320px] lg:w-[320px] xl:w-[320px] rounded-full",
   ...props
 }: ButtonProps) => (
   <button

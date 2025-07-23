@@ -2,6 +2,7 @@
 // ------------ Imports ---------------
 import { useEffect, useState } from "react";
 import { TicketCounterProps } from "../../types/index";
+import Minus from "../../../public/assets/icons/minus.jsx";
 
 /**
  * TicketCounter
@@ -56,25 +57,27 @@ const TicketCounter: React.FC<TicketCounterProps> = ({
   // Render
   // -----------------------------
   return (
-    <div className="flex items-center gap-4 mt-4">
+    <div className="flex items-center justify-between gap-4 w-full">
+      <div className="flex items-center gap-4">
       {/* Decrement button */}
       <button
         onClick={() => setQuantity((qty) => Math.max(1, qty - 1))}
-        className="px-3 py-1 bg-gray-200 rounded"
+        className="px-3 py-1  border-2 rounded-full border-[var(--color-acidYellow)] text-[var(--color-acidYellow)]  "
       >
         -
       </button>
       {/* Quantity display */}
-      <span className="font-bold text-lg">{quantity}</span>
+      <span className="font-bold text-[var(--color-text)] text-lg">{quantity}</span>
       {/* Increment button */}
       <button
         onClick={() => setQuantity((qty) => qty + 1)}
-        className="px-3 py-1 bg-gray-200 rounded"
+        className="px-3 py-1  border-2 rounded-full border-[var(--color-acidYellow)] text-[var(--color-acidYellow)] "
       >
         +
       </button>
+      </div>
       {/* Total price */}
-      <p className="ml-4 text-blue-600 font-semibold">
+      <p className=" text-[var(--color-text)] font-semibold">
         {total.toLocaleString("is-IS", { minimumFractionDigits: 2 })} kr.
       </p>
     </div>
