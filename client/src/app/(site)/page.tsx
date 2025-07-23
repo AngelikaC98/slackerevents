@@ -160,10 +160,10 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="bg-black text-[#EFFF00] px-8 py-10">
+        <footer className="text-[#EFFF00] px-8 py-10">
           <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left mb-8">
-            <div className="mb-6 md:mb-0 flex flex-col items-center md:items-start">
-              <p className="text-lg font-bold mb-4">
+            <div className="mb-6 md:mb-0 flex flex-col items-left md:items-start">
+              <p className="text-lg font-bold mb-4 font-family font-squada ">
                 Visit us in our social media
               </p>
               <div className="flex gap-6 justify-center">
