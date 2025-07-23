@@ -62,7 +62,7 @@ const EventDetail: React.FC = () => {
       {/* ---------- Section Top ---------- */}
       <button
         onClick={() => router.back()}
-        className="absolute top-4 left-4 z-10 text-[var(--color-acidYellow)]"
+        className="absolute text-4xl  top-4 left-4 z-10 text-[var(--color-acidYellow)]"
       >
         ←
       </button>
@@ -130,26 +130,28 @@ const EventDetail: React.FC = () => {
               </div>
 
               {/* ---------- Section Bottom ---------- */}
-              <div className="flex flex-col p-6 items-center w-full pb-6  flex-center  ">
-                <h2 className=" flex  font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
+              <div className="flex flex-col py-6 gap-6 w-[320px]  sm:w-[400px] md:w-[600px] lg:w-[800px] items-start mx-auto ">
+                <h2 className=" flex  items-start w-[320px] font-bold text-[var(--color-acidYellow)] font-squada text-[26px] sm:text-[32px] md:text-[32px] lg:text-[36px]">
                   Description
                 </h2>
 
                 <div
-                  className="text-[14px] w-[320px] sm:w-[400px] md:w-[600px] lg:w-[700px] text-[var(--color-text)]"
+                  className="text-[14px] flex  w-full max-w-[320px]  text-[var(--color-text)]"
                   dangerouslySetInnerHTML={{ __html: event.description }}
                 />
               </div>
-              <div className="flex justify-center items-center  flex-col">
-                <div className=" items-center w-[320px] sm:w-[400px] justify-between md:w-[600px] lg:w-[700px] flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter">
-                  <TicketCounter
+              <div className="flex flex-col md:flex-row items-center justify-center pb-6">
+                <div className=" gap-6 w-[320px] sm:w-[400px] lg:w-[800px] justify-between md:w-[600px]  flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter">
+                 <div className="text-center items-center flex justify-center">
+                    <TicketCounter
                     pricePerTicket={event.price || 0}
                     eventId={String(event.id)}
                     onChange={(newQty, newTotal) => {
                       setQty(newQty);
                       setTotal(newTotal);
                     }}
-                  />
+                    />
+                  </div>
                   <Button
                     variant="secondary"
                     onClick={handleBuyTicket}
