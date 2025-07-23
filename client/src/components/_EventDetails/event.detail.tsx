@@ -12,9 +12,13 @@ import VideoPlayer from "@/components/Media/video/videoEmbed";
 //* Components
 import TicketCounter from "../_TicketCounter/ticketCounter";
 import Button from "../UI/UniversalButton/button";
+#49-eventlist-payment-integration
+import PaymentModal from "../PaymentModal/page";
+
 import { useRouter } from "next/navigation";
 import Location from "../../../public/assets/icons/location.jsx";
 import Schedule from "../../../public/assets/icons/schedule.jsx";
+develop
 
 /**
  * EventDetail
@@ -40,9 +44,7 @@ const EventDetail: React.FC = () => {
   if (!event) return <p className="text-red-500">Event not found 😵</p>;
 
   const handleBuyTicket = () => {
-    sessionStorage.setItem("ticket_qty", String(qty));
-    sessionStorage.setItem("ticket_total", String(total));
-    sessionStorage.setItem("event_id", String(event.id));
+    // Open PaymentModal with selected quantity
     setShowModal(true);
   };
 
@@ -172,19 +174,27 @@ const EventDetail: React.FC = () => {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-8 rounded shadow-lg">
-              <h2 className="text-xl font-bold mb-4">Ready for payment</h2>
-              <p>Tickets: {qty}</p>
-              <p>Total price: {total} ISK</p>
-              <button
-                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
+          <PaymentModal
+            eventData={{
+              id: event.id,
+              title: event.title,
+              price: event.price || 0,
+              venue: `${event.venue?.place || ""}, ${
+                event.venue?.city?.city_name || ""
+              }`,
+              date: new Date(event.start_date || "").toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }
+              ),
+            }}
+            onClose={() => setShowModal(false)}
+          />
         )}
       </div>
     </>
