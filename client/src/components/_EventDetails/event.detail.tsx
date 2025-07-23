@@ -12,13 +12,12 @@ import VideoPlayer from "@/components/Media/video/videoEmbed";
 //* Components
 import TicketCounter from "../_TicketCounter/ticketCounter";
 import Button from "../UI/UniversalButton/button";
-#49-eventlist-payment-integration
+
 import PaymentModal from "../PaymentModal/page";
 
 import { useRouter } from "next/navigation";
 import Location from "../../../public/assets/icons/location.jsx";
 import Schedule from "../../../public/assets/icons/schedule.jsx";
-develop
 
 /**
  * EventDetail
@@ -31,12 +30,10 @@ const EventDetail: React.FC = () => {
 
   const { data: events, loading, error } = useEvents();
 
-
   const [qty, setQty] = useState(0);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
-
 
   const event = events?.find((e: Event) => String(e.id) === id);
   if (loading) return <p>Loading events...</p>;
@@ -146,14 +143,14 @@ const EventDetail: React.FC = () => {
               </div>
               <div className="flex flex-col md:flex-row items-center justify-center pb-6">
                 <div className=" gap-6 w-[320px] sm:w-[400px] lg:w-[800px] justify-between md:w-[600px]  flex flex-col sm:flex-col md:flex-row lg:flex-row items-enter">
-                 <div className="text-center items-center flex justify-center">
+                  <div className="text-center items-center flex justify-center">
                     <TicketCounter
-                    pricePerTicket={event.price || 0}
-                    eventId={String(event.id)}
-                    onChange={(newQty, newTotal) => {
-                      setQty(newQty);
-                      setTotal(newTotal);
-                    }}
+                      pricePerTicket={event.price || 0}
+                      eventId={String(event.id)}
+                      onChange={(newQty, newTotal) => {
+                        setQty(newQty);
+                        setTotal(newTotal);
+                      }}
                     />
                   </div>
                   <Button
