@@ -161,6 +161,7 @@ export default function Home() {
                   backgroundRepeat: "no-repeat",
                 }}
               >
+                {/* Background optimization: Consider using Next.js Image component for better performance */}
                 {/* Heart Icon - Top Right */}
                 <a
                   href="/favorites"
@@ -322,6 +323,8 @@ export default function Home() {
                     background: `url('/assets/images/Frame${frameNumber}.png') lightgray 50% / cover no-repeat`,
                     marginTop:
                       index === 0 ? "40px" : index === 2 ? "20px" : "0px",
+                    // Performance: Consider lazy loading for images below the fold
+                    backgroundAttachment: "scroll",
                   }}
                 ></div>
               ))}
