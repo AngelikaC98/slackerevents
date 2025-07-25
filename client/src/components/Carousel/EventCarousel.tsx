@@ -21,7 +21,7 @@ interface EventCarouselProps {
 const defaultSlides: CarouselSlide[] = [
   {
     id: 1,
-    image: "/assets/images/proof.png",
+    image: "/assets/images/proof.jpg",
     title: "",
     subtitle: "",
     link: "/events/proof-concept-tour",
