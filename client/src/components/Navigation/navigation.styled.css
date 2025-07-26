@@ -89,6 +89,21 @@
   height: 100vh;
   width: 100vw;
   padding-top: 8rem;
+  position: relative; /* Add this to establish positioning context */
+}
+
+/* Add specific styling for social icons positioning */
+.bm-menu footer {
+  position: absolute !important;
+  bottom: 3rem !important;
+  right: 3rem !important;
+}
+
+/* Language toggle positioning */
+.bm-menu .absolute.bottom-4.left-4 {
+  position: absolute !important;
+  bottom: 2rem !important;
+  left: 2rem !important;
 }
 
 .bm-overlay {

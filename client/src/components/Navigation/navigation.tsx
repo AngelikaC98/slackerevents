@@ -15,6 +15,7 @@ import Profile2 from "../../../public/assets/icons/profile2.jsx";
 // ------------ Components ---------------
 import Socials from "@/components/UI/SocialMedia/socials";
 import Button from "@/components/UI/UniversalButton/button";
+import Footer from "@/components/Footer/Footer";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
 
@@ -50,6 +51,7 @@ const Navigation: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("ENG"); // Add language state
 
   // Ref for user dropdown (to detect outside clicks)
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
@@ -89,30 +91,31 @@ const Navigation: React.FC = () => {
 
   // ------------ Render ---------------
   return (
-    <div className="navWrapper font-squada">
-      <nav className="navbar">
-        {/* Logo */}
-        <Link
-          href="/"
-          onClick={() => setMenuOpen(false)}
-          className="flex align-center "
-        >
-          <Image src={Logo} alt="Logo" className="Logo" priority />
-        </Link>
+    <>
+      <div className="navWrapper font-squada">
+        <nav className="navbar">
+          {/* Logo */}
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="flex align-center "
+          >
+            <Image src={Logo} alt="Logo" className="Logo" priority />
+          </Link>
 
-        {/* ------------------------- */}
-        {/* Desktop Navigation */}
-        {/* ------------------------- */}
-        {!isMobile && (
-          <div className="flex items-center gap-2">
-            {/* Main navigation links */}
-            {navLinks
-              .filter((lenght) => lenght.desktopOnly)
-              .map(({ to, text }) => (
-                <Link
-                  key={to}
-                  href={to}
-                  className={`p-[10px_20px] text-2xl font-semibold rounded-full transition-all duration-300 
+          {/* ------------------------- */}
+          {/* Desktop Navigation */}
+          {/* ------------------------- */}
+          {!isMobile && (
+            <div className="flex items-center gap-2">
+              {/* Main navigation links */}
+              {navLinks
+                .filter((lenght) => lenght.desktopOnly)
+                .map(({ to, text }) => (
+                  <Link
+                    key={to}
+                    href={to}
+                    className={`p-[10px_20px] text-2xl font-semibold rounded-full transition-all duration-300 
                   text-[var(--color-acidYellow)] 
                   hover:bg-[var(--color-acidYellow)] hover:text-[var(--color-textBlack)] 
                   ${
@@ -120,139 +123,173 @@ const Navigation: React.FC = () => {
                       ? "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)]"
                       : ""
                   }`}
+                  >
+                    {text}
+                  </Link>
+                ))}
+
+              {/* User dropdown menu */}
+              <div className="relative" ref={dropdownWrapperRef}>
+                <Button
+                  onClick={() => setUserMenuOpen((value) => !value)}
+                  variant="default"
+                  className="text-xl hover:p-2.5 p-2.5 transition-all duration-300 rounded-full text-[var(--color-acidYellow)] hover:text-[var(--color-textBlack)] hover:bg-[var(--color-acidYellow)] leading-none "
+                >
+                  <Profile2 src={profile} alt="Profile" />
+                </Button>
+
+                {/* Dropdown content */}
+                {userMenuOpen && (
+                  <div className="absolute right-[-2rem] top-[4rem] w-[150px] border border-[var(--color-acidYellow)] rounded shadow-lg z-50">
+                    {/* If not logged in, show login */}
+                    {!isLoggedIn ? (
+                      <Link
+                        href={`/login?callbackUrl=${encodeURIComponent(
+                          pathname || "/"
+                        )}`}
+                        className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        Log in
+                      </Link>
+                    ) : (
+                      <>
+                        {/* Authenticated user links */}
+                        {userLinks.map(({ to, text }) => (
+                          <Link
+                            key={to}
+                            href={to}
+                            onClick={() => setMenuOpen(false)}
+                            className={`text-white text-sm font-bold py-4 w-full flex flex-col text-center hover:text-[var(--color-acidYellow)] transition ${
+                              pathname === to
+                                ? "text-[var(--color-acidYellow)]"
+                                : ""
+                            }`}
+                          >
+                            {text}
+                          </Link>
+                        ))}
+                        <Button
+                          onClick={() => signOut()}
+                          variant="danger"
+                          className="w-full text-left px-4 py-2"
+                        >
+                          Log out
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </nav>
+
+        {/* ------------------------- */}
+        {/* Mobile Navigation */}
+        {/* ------------------------- */}
+        {isMobile && (
+          <div className="flexbox justify-between items-center ">
+            {/* Burger menu */}
+            <Menu
+              isOpen={menuOpen}
+              onStateChange={({ isOpen }) => setMenuOpen(isOpen)}
+              right
+              burgerButtonClassName={
+                menuOpen ? "bm-burger-button open" : "bm-burger-button"
+              }
+            >
+              {/* All navigation links */}
+              {navLinks.map(({ to, text, requiresAuth }) => (
+                <Link
+                  key={to}
+                  href={
+                    requiresAuth && !isLoggedIn
+                      ? `/login?callbackUrl=${encodeURIComponent(to)}`
+                      : to
+                  }
+                  onClick={() => setMenuOpen(false)}
+                  className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
+                    pathname === to ? "text-[var(--color-acidYellow)]" : ""
+                  }`}
                 >
                   {text}
                 </Link>
               ))}
 
-            {/* User dropdown menu */}
-            <div className="relative" ref={dropdownWrapperRef}>
-              <Button
-                onClick={() => setUserMenuOpen((value) => !value)}
-                variant="default"
-                className="text-xl hover:p-2.5 p-2.5 transition-all duration-300 rounded-full text-[var(--color-acidYellow)] hover:text-[var(--color-textBlack)] hover:bg-[var(--color-acidYellow)] leading-none "
-              >
-                <Profile2 src={profile} alt="Profile" />
-              </Button>
-
-              {/* Dropdown content */}
-              {userMenuOpen && (
-                <div className="absolute right-[-2rem] top-[4rem] w-[150px] border border-[var(--color-acidYellow)] rounded shadow-lg z-50">
-                  {/* If not logged in, show login */}
-                  {!isLoggedIn ? (
-                    <Link
-                      href={`/login?callbackUrl=${encodeURIComponent(
-                        pathname || "/"
-                      )}`}
-                      className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Log in
-                    </Link>
-                  ) : (
-                    <>
-                      {/* Authenticated user links */}
-                      {userLinks.map(({ to, text }) => (
-                        <Link
-                          key={to}
-                          href={to}
-                          onClick={() => setMenuOpen(false)}
-                          className={`text-white text-sm font-bold py-4 w-full flex flex-col text-center hover:text-[var(--color-acidYellow)] transition ${
-                            pathname === to
-                              ? "text-[var(--color-acidYellow)]"
-                              : ""
-                          }`}
-                        >
-                          {text}
-                        </Link>
-                      ))}
-                      <Button
-                        onClick={() => signOut()}
-                        variant="danger"
-                        className="w-full text-left px-4 py-2"
-                      >
-                        Log out
-                      </Button>
-                    </>
-                  )}
+              {/* Language Toggle - Bottom Left */}
+              <div className="absolute bottom-12 left-4">
+                <div className="flex gap-2 text-xl">
+                  <button
+                    onClick={() => setSelectedLanguage("ISL")}
+                    className={`transition-colors ${
+                      selectedLanguage === "ISL"
+                        ? "text-[var(--color-acidYellow)]"
+                        : "text-white hover:text-[var(--color-acidYellow)]"
+                    }`}
+                  >
+                    ISL
+                  </button>
+                  <span className="text-white">/</span>
+                  <button
+                    onClick={() => setSelectedLanguage("ENG")}
+                    className={`transition-colors ${
+                      selectedLanguage === "ENG"
+                        ? "text-[var(--color-acidYellow)]"
+                        : "text-white hover:text-[var(--color-acidYellow)]"
+                    }`}
+                  >
+                    ENG
+                  </button>
                 </div>
+              </div>
+
+              {/* Footer component at bottom center */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                <Footer />
+              </div>
+
+              {/* Social media icons - Bottom Right */}
+              <div className="absolute bottom-12 right-4">
+                <Socials />
+              </div>
+            </Menu>
+
+            {/* Login/Logout button - OUTSIDE the menu */}
+            <div className="absolute z-50 right-[105px] top-9">
+              {!isLoggedIn ? (
+                <Link
+                  className=""
+                  onClick={() => setMenuOpen(false)}
+                  href={`/login?callbackUrl=${encodeURIComponent(
+                    pathname || "/"
+                  )}`}
+                  aria-label="Login"
+                >
+                  <Image
+                    src={profile}
+                    alt="Profile"
+                    width={32}
+                    height={32}
+                    className="w-9 h-9"
+                  />
+                </Link>
+              ) : (
+                <Button onClick={() => signOut()} className="">
+                  <Image
+                    src={Logout}
+                    alt="Profile"
+                    width={400}
+                    height={400}
+                    className="w-9 h-9"
+                  />
+                </Button>
               )}
             </div>
           </div>
         )}
-      </nav>
-
-      {/* ------------------------- */}
-      {/* Mobile Navigation */}
-      {/* ------------------------- */}
-      {isMobile && (
-        <div className="flexbox justify-between items-center ">
-          {/* Burger menu */}
-          <Menu
-            isOpen={menuOpen}
-            onStateChange={({ isOpen }) => setMenuOpen(isOpen)}
-            right
-            burgerButtonClassName={
-              menuOpen ? "bm-burger-button open" : "bm-burger-button"
-            }
-          >
-            {/* All navigation links */}
-            {navLinks.map(({ to, text, requiresAuth }) => (
-              <Link
-                key={to}
-                href={
-                  requiresAuth && !isLoggedIn
-                    ? `/login?callbackUrl=${encodeURIComponent(to)}`
-                    : to
-                }
-                onClick={() => setMenuOpen(false)}
-                className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
-                  pathname === to ? "text-[var(--color-acidYellow)]" : ""
-                }`}
-              >
-                {text}
-              </Link>
-            ))}
-
-            <footer className="flex justify-center mt-6">
-              <Socials />
-            </footer>
-          </Menu>
-
-          {/* Login/Logout button - OUTSIDE the menu */}
-          <div className="absolute z-50 right-[105px] top-9">
-            {!isLoggedIn ? (
-              <Link
-                className=""
-                onClick={() => setMenuOpen(false)}
-                href={`/login?callbackUrl=${encodeURIComponent(
-                  pathname || "/"
-                )}`}
-                aria-label="Login"
-              >
-                <Image
-                  src={profile}
-                  alt="Profile"
-                  width={32}
-                  height={32}
-                  className="w-9 h-9"
-                />
-              </Link>
-            ) : (
-              <Button onClick={() => signOut()} className="">
-                <Image
-                  src={Logout}
-                  alt="Profile"
-                  width={400}
-                  height={400}
-                  className="w-9 h-9"
-                />
-              </Button>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };
 
