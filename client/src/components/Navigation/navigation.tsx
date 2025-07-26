@@ -18,8 +18,6 @@ import Button from "@/components/UI/UniversalButton/button";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
 
-
-
 //* Navigation links configuration
 const navLinks: NavLink[] = [
   // public
@@ -40,10 +38,8 @@ const userLinks = [
   { to: "/my-tickets", text: "My Tickets" },
 ];
 
-
 // ------------ Navigation ---------------
 const Navigation: React.FC = () => {
-
   // Routing and session hooks
   const pathname = usePathname();
   const router = useRouter();
@@ -58,9 +54,7 @@ const Navigation: React.FC = () => {
   // Ref for user dropdown (to detect outside clicks)
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
 
-
-  
-// ------------ Effect ---------------
+  // ------------ Effect ---------------
 
   //* Detect mobile viewport
   useEffect(() => {
@@ -93,10 +87,7 @@ const Navigation: React.FC = () => {
     return () => document.removeEventListener("mousedown", close);
   }, [userMenuOpen]);
 
-
-
-
-// ------------ Render ---------------
+  // ------------ Render ---------------
   return (
     <div className="navWrapper font-squada">
       <nav className="navbar">
@@ -151,7 +142,7 @@ const Navigation: React.FC = () => {
                   {!isLoggedIn ? (
                     <Link
                       href={`/login?callbackUrl=${encodeURIComponent(
-                        pathname
+                        pathname || "/"
                       )}`}
                       className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
                       onClick={() => setUserMenuOpen(false)}
@@ -234,7 +225,9 @@ const Navigation: React.FC = () => {
               <Link
                 className=""
                 onClick={() => setMenuOpen(false)}
-                href={`/login?callbackUrl=${encodeURIComponent(pathname)}`}
+                href={`/login?callbackUrl=${encodeURIComponent(
+                  pathname || "/"
+                )}`}
                 aria-label="Login"
               >
                 <Image
@@ -245,9 +238,7 @@ const Navigation: React.FC = () => {
                   className="w-9 h-9"
                 />
               </Link>
-
             ) : (
-
               <Button onClick={() => signOut()} className="">
                 <Image
                   src={Logout}
