@@ -21,5 +21,35 @@
   "language": {
     "english": "ENG",
     "icelandic": "ÍSL"
+  },
+  "auth": {
+    "login": "Skrá inn",
+    "signIn": "Skrá inn",
+    "signUp": "Skrá sig",
+    "signingIn": "Skrái inn...",
+    "email": "Netfang",
+    "password": "Lykilorð",
+    "emailPlaceholder": "Sláðu inn netfangið þitt",
+    "passwordPlaceholder": "Sláðu inn lykilorðið þitt",
+    "forgotPassword": "Gleymt lykilorð?",
+    "orContinueWith": "eða haltu áfram með",
+    "continueWithGoogle": "Halda áfram með Google",
+    "continueWithApple": "Halda áfram með Apple",
+    "continueWithFacebook": "Halda áfram með Facebook",
+    "noAccount": "Ekki með reikning?",
+    "errors": {
+      "emailRequired": "Netfang er nauðsynlegt",
+      "emailInvalid": "Vinsamlegast sláðu inn gilt netfang",
+      "passwordRequired": "Lykilorð er nauðsynlegt",
+      "passwordTooShort": "Lykilorð verður að vera að minnsta kosti 6 stafir",
+      "invalidCredentials": "Ógilt netfang eða lykilorð",
+      "socialLoginFailed": "Innskráning mistókst. Vinsamlegast reyndu aftur.",
+      "unknownError": "Óvænt villa kom upp. Vinsamlegast reyndu aftur."
+    }
+  },
+  "common": {
+    "close": "Loka",
+    "cancel": "Hætta við",
+    "confirm": "Staðfesta"
   }
 }
