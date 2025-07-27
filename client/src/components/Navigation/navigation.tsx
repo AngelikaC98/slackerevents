@@ -16,6 +16,7 @@ import Profile2 from "../../../public/assets/icons/profile2.jsx";
 import Socials from "@/components/UI/SocialMedia/socials";
 import Button from "@/components/UI/UniversalButton/button";
 import Footer from "@/components/Footer/Footer";
+import MobileMenuFooter from "./MobileMenuFooter";
 import { useTranslation } from "@/hooks/useTranslation";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
@@ -224,42 +225,13 @@ const Navigation: React.FC = () => {
                 </Link>
               ))}
 
-              {/* Language Toggle - Bottom Left */}
-              <div className="absolute bottom-12 left-4">
-                <div className="flex gap-2 text-xl">
-                  <button
-                    onClick={() => changeLanguage("is")}
-                    className={`transition-colors ${
-                      locale === "is"
-                        ? "text-[var(--color-acidYellow)]"
-                        : "text-white hover:text-[var(--color-acidYellow)]"
-                    }`}
-                  >
-                    {isClient ? t("language.icelandic") : "ÍSL"}
-                  </button>
-                  <span className="text-white">/</span>
-                  <button
-                    onClick={() => changeLanguage("en")}
-                    className={`transition-colors ${
-                      locale === "en"
-                        ? "text-[var(--color-acidYellow)]"
-                        : "text-white hover:text-[var(--color-acidYellow)]"
-                    }`}
-                  >
-                    {isClient ? t("language.english") : "ENG"}
-                  </button>
-                </div>
-              </div>
-
-              {/* Footer component at bottom center */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                <Footer />
-              </div>
-
-              {/* Social media icons - Bottom Right */}
-              <div className="absolute bottom-12 right-4">
-                <Socials />
-              </div>
+              {/* Mobile Menu Footer Component */}
+              <MobileMenuFooter
+                locale={locale}
+                onLanguageChange={changeLanguage}
+                isClient={isClient}
+                t={t}
+              />
             </Menu>
 
             {/* Login/Logout button - OUTSIDE the menu */}
@@ -296,6 +268,22 @@ const Navigation: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Footer component positioned at bottom - only show if NOT on main page */}
+      {pathname !== "/" && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            left: "0",
+            right: "0",
+            textAlign: "center",
+            zIndex: 1000,
+          }}
+        >
+          <Footer />
+        </div>
+      )}
     </>
   );
 };
