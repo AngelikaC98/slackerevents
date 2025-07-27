@@ -13,10 +13,11 @@ import Logout from "../../../public/assets/icons/logout.svg";
 import profile from "../../../public/assets/icons/Profile.svg";
 import Profile2 from "../../../public/assets/icons/profile2.jsx";
 // ------------ Components ---------------
-import Socials from "@/components/UI/SocialMedia/socials";
+// import Socials from "@/components/UI/SocialMedia/socials";
 import Button from "@/components/UI/UniversalButton/button";
 import Footer from "@/components/Footer/Footer";
 import MobileMenuFooter from "./MobileMenuFooter";
+import LoginModal from "@/components/LoginModal/LoginModal";
 import { useTranslation } from "@/hooks/useTranslation";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
@@ -52,7 +53,7 @@ const Navigation: React.FC = () => {
 
   // Routing and session hooks
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   const { data: session } = useSession();
   const isLoggedIn = !!session;
 
@@ -60,6 +61,7 @@ const Navigation: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   // Ref for user dropdown (to detect outside clicks)
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
@@ -151,15 +153,15 @@ const Navigation: React.FC = () => {
                   <div className="absolute right-[-2rem] top-[4rem] w-[150px] border border-[var(--color-acidYellow)] rounded shadow-lg z-50">
                     {/* If not logged in, show login */}
                     {!isLoggedIn ? (
-                      <Link
-                        href={`/login?callbackUrl=${encodeURIComponent(
-                          pathname || "/"
-                        )}`}
+                      <button
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          setLoginModalOpen(true);
+                        }}
                         className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
-                        onClick={() => setUserMenuOpen(false)}
                       >
                         {t("navigation.login")}
-                      </Link>
+                      </button>
                     ) : (
                       <>
                         {/* Authenticated user links */}
@@ -208,22 +210,31 @@ const Navigation: React.FC = () => {
               }
             >
               {/* All navigation links */}
-              {navLinks.map(({ to, text, requiresAuth }) => (
-                <Link
-                  key={to}
-                  href={
-                    requiresAuth && !isLoggedIn
-                      ? `/login?callbackUrl=${encodeURIComponent(to)}`
-                      : to
-                  }
-                  onClick={() => setMenuOpen(false)}
-                  className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
-                    pathname === to ? "text-[var(--color-acidYellow)]" : ""
-                  }`}
-                >
-                  {text}
-                </Link>
-              ))}
+              {navLinks.map(({ to, text, requiresAuth }) =>
+                requiresAuth && !isLoggedIn ? (
+                  <button
+                    key={to}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setLoginModalOpen(true);
+                    }}
+                    className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition`}
+                  >
+                    {text}
+                  </button>
+                ) : (
+                  <Link
+                    key={to}
+                    href={to}
+                    onClick={() => setMenuOpen(false)}
+                    className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
+                      pathname === to ? "text-[var(--color-acidYellow)]" : ""
+                    }`}
+                  >
+                    {text}
+                  </Link>
+                )
+              )}
 
               {/* Mobile Menu Footer Component */}
               <MobileMenuFooter
@@ -237,13 +248,13 @@ const Navigation: React.FC = () => {
             {/* Login/Logout button - OUTSIDE the menu */}
             <div className="absolute z-50 right-[105px] top-9">
               {!isLoggedIn ? (
-                <Link
-                  className=""
-                  onClick={() => setMenuOpen(false)}
-                  href={`/login?callbackUrl=${encodeURIComponent(
-                    pathname || "/"
-                  )}`}
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setLoginModalOpen(true);
+                  }}
                   aria-label="Login"
+                  className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                 >
                   <Image
                     src={profile}
@@ -252,7 +263,7 @@ const Navigation: React.FC = () => {
                     height={32}
                     className="w-9 h-9"
                   />
-                </Link>
+                </button>
               ) : (
                 <Button onClick={() => signOut()} className="">
                   <Image
@@ -284,16 +295,15 @@ const Navigation: React.FC = () => {
           <Footer />
         </div>
       )}
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        callbackUrl={pathname || "/"}
+      />
     </>
   );
 };
-
-// -----------------------------
-// Helper function to check if a URL is a safe redirect - helps prevent open redirects to external sites.
-// -----------------------------
-function isSafeRedirect(url: string) {
-  // Kun relative interne links tillades
-  return url.startsWith("/") && !url.startsWith("//");
-}
 
 export default Navigation;
