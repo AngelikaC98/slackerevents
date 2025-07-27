@@ -16,31 +16,39 @@ import Profile2 from "../../../public/assets/icons/profile2.jsx";
 import Socials from "@/components/UI/SocialMedia/socials";
 import Button from "@/components/UI/UniversalButton/button";
 import Footer from "@/components/Footer/Footer";
+import { useTranslation } from "@/hooks/useTranslation";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
 
 //* Navigation links configuration
-const navLinks: NavLink[] = [
+const getNavLinks = (t: (key: string) => string): NavLink[] => [
   // public
-  { to: "/", text: "HOME", desktopOnly: true },
-  { to: "/all-events", text: "EVENTS", desktopOnly: true },
-  { to: "/contact", text: "CONTACT", desktopOnly: true },
-  { to: "/gallery", text: "GALLERY", desktopOnly: true },
+  { to: "/", text: t("navigation.home"), desktopOnly: true },
+  { to: "/all-events", text: t("navigation.events"), desktopOnly: true },
+  { to: "/contact", text: t("navigation.contact"), desktopOnly: true },
+  { to: "/gallery", text: t("navigation.gallery"), desktopOnly: true },
   // user-accessible
-  { to: "/favorites", text: "FAVORITES", requiresAuth: true },
-  { to: "/my-tickets", text: "MY TICKETS", requiresAuth: true },
-  { to: "/settings", text: "SETTINGS", requiresAuth: true },
+  { to: "/favorites", text: t("navigation.favorites"), requiresAuth: true },
+  { to: "/my-tickets", text: t("navigation.myTickets"), requiresAuth: true },
+  { to: "/settings", text: t("navigation.settings"), requiresAuth: true },
 ];
 
 //* User-specific links (shown in dropdown)
-const userLinks = [
-  { to: "/favorites", text: "Favorites" },
-  { to: "/settings", text: "Settings" },
-  { to: "/my-tickets", text: "My Tickets" },
+const getUserLinks = (t: (key: string) => string) => [
+  { to: "/favorites", text: t("userMenu.favorites") },
+  { to: "/settings", text: t("userMenu.settings") },
+  { to: "/my-tickets", text: t("userMenu.myTickets") },
 ];
 
 // ------------ Navigation ---------------
 const Navigation: React.FC = () => {
+  // Translation hook
+  const { t, locale, changeLanguage, isClient } = useTranslation();
+
+  // Get translated navigation links
+  const navLinks = getNavLinks(t);
+  const userLinks = getUserLinks(t);
+
   // Routing and session hooks
   const pathname = usePathname();
   const router = useRouter();
@@ -51,7 +59,6 @@ const Navigation: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENG"); // Add language state
 
   // Ref for user dropdown (to detect outside clicks)
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
@@ -150,7 +157,7 @@ const Navigation: React.FC = () => {
                         className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
                         onClick={() => setUserMenuOpen(false)}
                       >
-                        Log in
+                        {t("navigation.login")}
                       </Link>
                     ) : (
                       <>
@@ -174,7 +181,7 @@ const Navigation: React.FC = () => {
                           variant="danger"
                           className="w-full text-left px-4 py-2"
                         >
-                          Log out
+                          {t("navigation.logout")}
                         </Button>
                       </>
                     )}
@@ -221,25 +228,25 @@ const Navigation: React.FC = () => {
               <div className="absolute bottom-12 left-4">
                 <div className="flex gap-2 text-xl">
                   <button
-                    onClick={() => setSelectedLanguage("ISL")}
+                    onClick={() => changeLanguage("is")}
                     className={`transition-colors ${
-                      selectedLanguage === "ISL"
+                      locale === "is"
                         ? "text-[var(--color-acidYellow)]"
                         : "text-white hover:text-[var(--color-acidYellow)]"
                     }`}
                   >
-                    ISL
+                    {isClient ? t("language.icelandic") : "ÍSL"}
                   </button>
                   <span className="text-white">/</span>
                   <button
-                    onClick={() => setSelectedLanguage("ENG")}
+                    onClick={() => changeLanguage("en")}
                     className={`transition-colors ${
-                      selectedLanguage === "ENG"
+                      locale === "en"
                         ? "text-[var(--color-acidYellow)]"
                         : "text-white hover:text-[var(--color-acidYellow)]"
                     }`}
                   >
-                    ENG
+                    {isClient ? t("language.english") : "ENG"}
                   </button>
                 </div>
               </div>

@@ -1,0 +1,25 @@
+{
+  "navigation": {
+    "home": "HEIM",
+    "events": "VIÐBURÐIR",
+    "contact": "SAMBAND",
+    "gallery": "SAFN",
+    "favorites": "UPPÁHALD",
+    "myTickets": "MÍNIR MIÐAR",
+    "settings": "STILLINGAR",
+    "login": "Skrá inn",
+    "logout": "Skrá út"
+  },
+  "userMenu": {
+    "favorites": "Uppáhald",
+    "settings": "Stillingar",
+    "myTickets": "Mínir miðar"
+  },
+  "footer": {
+    "copyright": "© 2025 eftir Vefkraft"
+  },
+  "language": {
+    "english": "ENG",
+    "icelandic": "ÍSL"
+  }
+}
