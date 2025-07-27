@@ -20,6 +20,7 @@ import "./LoginModal.module.css";
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onBack?: () => void;
   callbackUrl?: string;
 }
 
@@ -30,37 +31,38 @@ interface LoginFormData {
 
 interface LoginError {
   message: string;
-  field?: 'email' | 'password' | 'general';
+  field?: "email" | "password" | "general";
 }
 
 // ------------ Component ---------------
-const LoginModal: React.FC<LoginModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  callbackUrl = "/" 
+const LoginModal: React.FC<LoginModalProps> = ({
+  isOpen,
+  onClose,
+  onBack,
+  callbackUrl = "/",
 }) => {
   // Translation hook
   const { t } = useTranslation();
-  
+
   // Router and search params
   const router = useRouter();
   // const searchParams = useSearchParams();
-  
+
   // Modal ref for click outside handling
   const modalRef = useRef<HTMLDivElement>(null);
-  
+
   // Form state
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<LoginError | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   // ------------ Effects ---------------
-  
+
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -112,8 +114,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Clear field-specific errors
     if (error?.field === name) {
       setError(null);
@@ -124,7 +126,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
     if (!formData.email.trim()) {
       setError({
         message: t("auth.errors.emailRequired"),
-        field: "email"
+        field: "email",
       });
       return false;
     }
@@ -132,7 +134,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
     if (!formData.email.includes("@")) {
       setError({
         message: t("auth.errors.emailInvalid"),
-        field: "email"
+        field: "email",
       });
       return false;
     }
@@ -140,7 +142,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
     if (!formData.password.trim()) {
       setError({
         message: t("auth.errors.passwordRequired"),
-        field: "password"
+        field: "password",
       });
       return false;
     }
@@ -148,7 +150,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
     if (formData.password.length < 6) {
       setError({
         message: t("auth.errors.passwordTooShort"),
-        field: "password"
+        field: "password",
       });
       return false;
     }
@@ -158,7 +160,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
   const handleCredentialsLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
@@ -174,7 +176,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       if (result?.error) {
         setError({
           message: t("auth.errors.invalidCredentials"),
-          field: "general"
+          field: "general",
         });
       } else if (result?.ok) {
         // Check if session is established
@@ -189,14 +191,16 @@ const LoginModal: React.FC<LoginModalProps> = ({
       console.error("Login error:", err);
       setError({
         message: t("auth.errors.unknownError"),
-        field: "general"
+        field: "general",
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSocialLogin = async (provider: "google" | "apple" | "facebook") => {
+  const handleSocialLogin = async (
+    provider: "google" | "apple" | "facebook"
+  ) => {
     setIsLoading(true);
     setError(null);
 
@@ -209,7 +213,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       console.error(`${provider} login error:`, err);
       setError({
         message: t("auth.errors.socialLoginFailed"),
-        field: "general"
+        field: "general",
       });
       setIsLoading(false);
     }
@@ -230,24 +234,59 @@ const LoginModal: React.FC<LoginModalProps> = ({
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-      
+
       {/* Modal Content */}
-      <div 
+      <div
         ref={modalRef}
         className="relative w-full max-w-md mx-4 bg-white rounded-lg shadow-xl transform transition-all"
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {t("auth.login")}
-          </h2>
+          <div className="flex items-center gap-2">
+            {/* Back arrow button, if onBack is provided */}
+            {onBack && (
+              <button
+                onClick={onBack}
+                className="mr-2 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label={t("common.back")}
+              >
+                {/* Use your ArrowLeft SVG icon here, or fallback to a simple arrow */}
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+            )}
+            <h2 className="text-2xl font-bold text-gray-900">
+              {t("auth.login")}
+            </h2>
+          </div>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"
             aria-label={t("common.close")}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -265,8 +304,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <form onSubmit={handleCredentialsLogin} className="space-y-4">
             {/* Email Field */}
             <div>
-              <label 
-                htmlFor="email" 
+              <label
+                htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 {t("auth.email")}
@@ -278,8 +317,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 value={formData.email}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                  error?.field === "email" 
-                    ? "border-red-300 focus:ring-red-500 focus:border-red-500" 
+                  error?.field === "email"
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                     : "border-gray-300"
                 }`}
                 placeholder={t("auth.emailPlaceholder")}
@@ -290,8 +329,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
             {/* Password Field */}
             <div>
-              <label 
-                htmlFor="password" 
+              <label
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
                 {t("auth.password")}
@@ -304,8 +343,8 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   value={formData.password}
                   onChange={handleInputChange}
                   className={`w-full px-3 py-2 pr-10 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    error?.field === "password" 
-                      ? "border-red-300 focus:ring-red-500 focus:border-red-500" 
+                    error?.field === "password"
+                      ? "border-red-300 focus:ring-red-500 focus:border-red-500"
                       : "border-gray-300"
                   }`}
                   placeholder={t("auth.passwordPlaceholder")}
@@ -318,11 +357,26 @@ const LoginModal: React.FC<LoginModalProps> = ({
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   disabled={isLoading}
                 >
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     {showPassword ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                      />
                     ) : (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
                     )}
                   </svg>
                 </button>
@@ -373,7 +427,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
               disabled={isLoading}
               className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Image src={GoogleIcon} alt="Google" width={20} height={20} className="mr-2" />
+              <Image
+                src={GoogleIcon}
+                alt="Google"
+                width={20}
+                height={20}
+                className="mr-2"
+              />
               {t("auth.continueWithGoogle")}
             </button>
 
@@ -403,7 +463,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <div className="px-6 py-4 border-t bg-gray-50 rounded-b-lg">
           <p className="text-sm text-gray-600 text-center">
             {t("auth.noAccount")}{" "}
-            <button 
+            <button
               onClick={() => {
                 // TODO: Implement sign up functionality or redirect
                 console.log("Sign up clicked");

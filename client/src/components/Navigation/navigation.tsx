@@ -141,53 +141,44 @@ const Navigation: React.FC = () => {
               {/* User dropdown menu */}
               <div className="relative" ref={dropdownWrapperRef}>
                 <Button
-                  onClick={() => setUserMenuOpen((value) => !value)}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      setLoginModalOpen(true);
+                    } else {
+                      setUserMenuOpen((value) => !value);
+                    }
+                  }}
                   variant="default"
                   className="text-xl hover:p-2.5 p-2.5 transition-all duration-300 rounded-full text-[var(--color-acidYellow)] hover:text-[var(--color-textBlack)] hover:bg-[var(--color-acidYellow)] leading-none "
                 >
                   <Profile2 src={profile} alt="Profile" />
                 </Button>
 
-                {/* Dropdown content */}
-                {userMenuOpen && (
+                {/* Dropdown content (only if logged in) */}
+                {isLoggedIn && userMenuOpen && (
                   <div className="absolute right-[-2rem] top-[4rem] w-[150px] border border-[var(--color-acidYellow)] rounded shadow-lg z-50">
-                    {/* If not logged in, show login */}
-                    {!isLoggedIn ? (
-                      <button
-                        onClick={() => {
-                          setUserMenuOpen(false);
-                          setLoginModalOpen(true);
-                        }}
-                        className="mt-4 w-full text-center text-xl px-3 py-1 rounded transition font-medium bg-blue-600 text-white hover:bg-blue-700 block"
+                    {/* Authenticated user links */}
+                    {userLinks.map(({ to, text }) => (
+                      <Link
+                        key={to}
+                        href={to}
+                        onClick={() => setMenuOpen(false)}
+                        className={`text-white text-sm font-bold py-4 w-full flex flex-col text-center hover:text-[var(--color-acidYellow)] transition ${
+                          pathname === to
+                            ? "text-[var(--color-acidYellow)]"
+                            : ""
+                        }`}
                       >
-                        {t("navigation.login")}
-                      </button>
-                    ) : (
-                      <>
-                        {/* Authenticated user links */}
-                        {userLinks.map(({ to, text }) => (
-                          <Link
-                            key={to}
-                            href={to}
-                            onClick={() => setMenuOpen(false)}
-                            className={`text-white text-sm font-bold py-4 w-full flex flex-col text-center hover:text-[var(--color-acidYellow)] transition ${
-                              pathname === to
-                                ? "text-[var(--color-acidYellow)]"
-                                : ""
-                            }`}
-                          >
-                            {text}
-                          </Link>
-                        ))}
-                        <Button
-                          onClick={() => signOut()}
-                          variant="danger"
-                          className="w-full text-left px-4 py-2"
-                        >
-                          {t("navigation.logout")}
-                        </Button>
-                      </>
-                    )}
+                        {text}
+                      </Link>
+                    ))}
+                    <Button
+                      onClick={() => signOut()}
+                      variant="danger"
+                      className="w-full text-left px-4 py-2"
+                    >
+                      {t("navigation.logout")}
+                    </Button>
                   </div>
                 )}
               </div>
@@ -300,6 +291,7 @@ const Navigation: React.FC = () => {
       <LoginModal
         isOpen={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
+        onBack={() => setLoginModalOpen(false)}
         callbackUrl={pathname || "/"}
       />
     </>
