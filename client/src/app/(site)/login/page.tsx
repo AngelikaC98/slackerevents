@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import SignInButton from "@/components/SigninButton/signinButton";
+import SignInButton from "@/components/_SigninButton/signinButton";
 
 /**
  * LoginPage
@@ -51,18 +51,21 @@ export default function LoginPage() {
           type="email"
           placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           className="w-full border rounded p-2"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           className="w-full border rounded p-2"
         />
         {errorMsg && <p className="text-red-500">{errorMsg}</p>}
-        <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-2 rounded"
+        >
           Log in
         </button>
       </form>
