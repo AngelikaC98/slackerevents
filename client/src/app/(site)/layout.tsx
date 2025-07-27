@@ -24,7 +24,8 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
   // Check backend connection status
   const status = useConnectionStatus(apiUrl);
   const pathname = usePathname();
-  const hideNavigation = pathname?.startsWith("/all-events/");
+  const hideNavigation =
+    pathname?.startsWith("/all-events/") || pathname === "/login";
 
   // Show loading or error if backend is not ready
   if (status === "checking")
