@@ -7,24 +7,48 @@
 
 
 /*--------- Variables for CSS styles ---------*/
-/* Login page variables */
 :root {
-  --acid-yellow: #faff00;
-  --gray-bg: #393939;
-  --input-radius: 2.2rem;
-  --input-border: 2.5px solid var(--acid-yellow);
-  --input-bg: transparent;
-  --input-text: #fff;
-  --input-placeholder: #bbb;
-  --button-radius: 2.2rem;
-  --button-bg: var(--acid-yellow);
-  --button-text: #222;
-  --divider-color: #fff2;
-  --font-main: 'Montserrat', 'Inter', Arial, sans-serif;
-}
+  /* Colors */
+  --color-acidYellow: #EFFF00;
+  --color-mrGrey: #E6E6E6;
+  --color-matBlack: #2E2E2E;
+  --color-secondary: #64748b;
+  --color-black70: rgba(71, 71, 71, 0.7);
+  --color-text: #E6E6E6;
+  --color-textBlack: #2E2E2E;
+
+  /* Colortheme */
+  --background: #2E2E2E;
+  --foreground: #171717;
+
+  /* Typography */
+  --font-family: "Squada One";
+  --font-weight: 400;
+  --line-height: 1.5;
+
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+
+  /* Blur effect */
+  --blur-effect: blur(12px);
+  --blur-colorDark: rgba(0, 0, 0, 0.5); 
 
  
-/* (removed misplaced global styles and closing brace) */
+
+  /* Global styles */
+  font-weight: var(--font-weight);
+  line-height: var(--line-height);
+  /* color-scheme: light dark; */          /* OFF */
+  color: var(--color-textBlack);
+  background-color: var(--background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
@@ -65,5 +89,3 @@ a:hover,
 button:hover {
   cursor: url('/assets/icons/pointer.svg') 10 10, auto;
 }
-
-
