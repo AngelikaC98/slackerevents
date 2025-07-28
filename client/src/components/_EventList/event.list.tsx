@@ -4,9 +4,11 @@ import type { Category, Event } from "@/types";
 import { useEvents } from "@/hooks/useEvents";
 import { useState } from "react";
 import { useCategories } from "@/hooks/useCategories";
-import Button from "@/components/UI/UniversalButton/button";
+import CardButton from "@/components/UI/CardPaymentButton/cardButton";
 import Link from "next/link";
 import PaymentModal from "@/components/PaymentModal/page";
+import ImageUrlorIDCard from "../Media/image/imageCard/ImageUrlorIDCard";
+import CardEvent from "../cardEvent/cardEvent";
 
 // ------------ Props ---------------
 type EventsProps = {
@@ -52,7 +54,7 @@ export default function Events() {
 
   // ------------ Render ---------------
   return (
-    <div>
+    <div className="pt-36 px-12 ">
       {/* Category filter buttons */}
       <div className="flex flex-wrap gap-2 mb-6">
         <button
@@ -81,53 +83,17 @@ export default function Events() {
       </div>
 
       {/* Event grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => (
-          <div
-            key={event.id}
-            className="border rounded-xl shadow p-4 bg-white hover:shadow-md transition"
-          >
-            {/* Event details and link */}
-            <Link href={`/all-events/${event.id}`}>
-              <h3 className="text-lg font-semibold mb-2 underline">
-                {event.title}
-              </h3>
-              <p>{event.venue?.address}</p>
-              <p className="text-sm text-gray-600 mb-2">
-                {new Date(event.start_date ?? "").toLocaleDateString("IS", {
-                  day: "numeric",
-                  month: "long",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-                {event.end_date ? ` → ${event.end_date.split("T")[0]}` : ""}
-              </p>
-            </Link>
-
-            {/* Ticket purchase and categories */}
-            <div className="flex gap-2 flex-wrap mt-2 items-center">
-              <Button
-                variant="primary"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedEvent(event);
-                  setShowPaymentModal(true);
-                }}
-              >
-                Buy Ticket
-              </Button>
-              {/* Event categories */}
-              {event.categories?.map((c) => (
-                <span
-                  key={c.categories_id.id}
-                  className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
-                >
-                  {c.categories_id.category_name}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="grid relative gap-6">
+     {events.map((event) => (
+  <CardEvent
+    key={event.id}
+    event={event}
+    onBuy={(e) => {
+      setSelectedEvent(e);
+      setShowPaymentModal(true);
+    }}
+  />
+))}
       </div>
 
       {/* PaymentModal */}

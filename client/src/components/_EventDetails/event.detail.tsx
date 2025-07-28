@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import Location from "../../../public/assets/icons/location.jsx";
 import Schedule from "../../../public/assets/icons/schedule.jsx";
 
+
 /**
  * EventDetail
  * -----------
