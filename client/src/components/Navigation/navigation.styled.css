@@ -14,7 +14,7 @@
   width: 95vw;
   height: 4.5rem;
   background-color: var(--color-black70);
-  backdrop-filter: var(--blur-effect); 
+  backdrop-filter: var(--blur-50); 
   -webkit-backdrop-filter: blur(12px); /* Safari browser */
   border-radius: 50px;
   display: flex;
@@ -109,5 +109,4 @@
 .bm-overlay {
   background: none !important;
 }
-
 
