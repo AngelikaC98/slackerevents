@@ -176,7 +176,7 @@
 }
 
 .divider {
-  display: stretch;
+  display: flex;
   align-items: center;
   color: var(--Neutral-color-100, #E6E6E6);
   text-align: center;
@@ -188,7 +188,12 @@
   margin: 1.7rem 0 1.1rem 0;
   letter-spacing: 0.01em;
 }
-
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1.5px solid var(--divider-color);
+  margin: 0 0.75em;
+}
 
 .socialButton {
   width: 320px;
