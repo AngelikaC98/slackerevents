@@ -252,7 +252,7 @@ const Navigation: React.FC = () => {
                     alt="Profile"
                     width={32}
                     height={32}
-                    className="w-9 h-9"
+                    className="w-9 h-9 profileIcon"
                   />
                 </button>
               ) : (
