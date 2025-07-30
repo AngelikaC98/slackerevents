@@ -246,6 +246,7 @@ export default function Home() {
                     letterSpacing: "0%",
                     textAlign: "right",
                   }}
+                  onClick={() => (window.location.href = "/all-events")}
                 >
                   See all events
                 </button>
