@@ -242,7 +242,7 @@ const Navigation: React.FC = () => {
                 <button
                   onClick={() => {
                     setMenuOpen(false);
-                    setLoginModalOpen(true);
+                    router.push("/login"); // Navigate to login page
                   }}
                   aria-label="Login"
                   className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
