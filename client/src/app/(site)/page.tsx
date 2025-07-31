@@ -9,11 +9,7 @@ import { useEvents } from "@/hooks/useEvents";
 import type { Category, Event } from "@/types";
 import { useCategories } from "@/hooks/useCategories";
 
-
-
-  // State for selected category filter
-
-
+// State for selected category filter
 
 const EventCarousel = dynamic(
   () => import("@/components/Carousel/EventCarousel"),
@@ -34,7 +30,7 @@ export default function Home() {
         : [...prev, filter]
     );
   };
-    const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
@@ -250,86 +246,102 @@ export default function Home() {
             })}
           </div>
 
-         
-
-            {/* Single event preview - will expand to multiple events later */}
-    <div className="overflow-x-auto 
+          {/* See all events section */}
+          <div className="mb-6">
+            <div className="flex justify-end mb-4">
+              <button
+                className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
+                style={{
+                  width: "389px",
+                  padding: "16px",
+                  fontWeight: 400,
+                  fontSize: "14px",
+                  lineHeight: "100%",
+                  letterSpacing: "0%",
+                  textAlign: "right",
+                }}
+                onClick={() => (window.location.href = "/all-events")}
+              >
+                See all events
+              </button>
+            </div>
+          </div>
+          {/* Single event preview - will expand to multiple events later */}
+          <div
+            className="overflow-x-auto 
 scroll-snap-stop:always
-scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visible">
+scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visible"
+          >
             {(events ?? []).map((event) => (
               <div className="shrink-0 w-[340px] sm:w-auto p-4">
-            <CardEvent
-              key={event.id}
-              event={event}
-              onBuy={(e) => {
-                setSelectedEvent(e);
-                setShowPaymentModal(true);
-              }}
-            />
-            </div>
-          ))}
-          </div>
-                {/* Bottom Action Bar - Empty now */}
-                <div className="flex justify-start items-center"></div>
-              
-            </div>
-          </div>
-        
-
-        {/* Events picture */}
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2
-              style={{
-                color: "#EFFF00",
-                fontFamily: "Squada One",
-                fontSize: "32px",
-                fontStyle: "normal",
-                fontWeight: 400,
-                lineHeight: "normal",
-              }}
-            >
-              Events picture
-            </h2>
-            <button
-              className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
-              style={{
-                width: "389px",
-                padding: "16px",
-                fontWeight: 400,
-                fontSize: "14px",
-                lineHeight: "100%",
-                letterSpacing: "0%",
-                textAlign: "right",
-              }}
-            >
-              See all
-            </button>
-          </div>
-          <div
-            className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 desktop-events-grid"
-            style={{
-              display: "grid",
-            }}
-          >
-            {[27, 47, 48, 49].map((frameNumber, index) => (
-              <div
-                key={index}
-                className="mx-auto desktop-event-frame"
-                style={{
-                  width: "full",
-                  height: "222px",
-                  borderRadius: "16px",
-                  border: "1px solid #EFFF00",
-                  background: `url('/assets/images/Frame${frameNumber}.png') lightgray 50% / cover no-repeat`,
-                  marginTop:
-                    index === 0 ? "40px" : index === 2 ? "20px" : "0px",
-                }}
-              ></div>
+                <CardEvent
+                  key={event.id}
+                  event={event}
+                  onBuy={(e) => {
+                    setSelectedEvent(e);
+                    setShowPaymentModal(true);
+                  }}
+                />
+              </div>
             ))}
           </div>
+          {/* Bottom Action Bar - Empty now */}
+          <div className="flex justify-start items-center"></div>
         </div>
-      
+      </div>
+
+      {/* Events picture */}
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2
+            style={{
+              color: "#EFFF00",
+              fontFamily: "Squada One",
+              fontSize: "32px",
+              fontStyle: "normal",
+              fontWeight: 400,
+              lineHeight: "normal",
+            }}
+          >
+            Events picture
+          </h2>
+          <button
+            className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
+            style={{
+              width: "389px",
+              padding: "16px",
+              fontWeight: 400,
+              fontSize: "14px",
+              lineHeight: "100%",
+              letterSpacing: "0%",
+              textAlign: "right",
+            }}
+          >
+            See all
+          </button>
+        </div>
+        <div
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-4 desktop-events-grid"
+          style={{
+            display: "grid",
+          }}
+        >
+          {[27, 47, 48, 49].map((frameNumber, index) => (
+            <div
+              key={index}
+              className="mx-auto desktop-event-frame"
+              style={{
+                width: "full",
+                height: "222px",
+                borderRadius: "16px",
+                border: "1px solid #EFFF00",
+                background: `url('/assets/images/Frame${frameNumber}.png') lightgray 50% / cover no-repeat`,
+                marginTop: index === 0 ? "40px" : index === 2 ? "20px" : "0px",
+              }}
+            ></div>
+          ))}
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="text-[#EFFF00] px-8 py-10 bg-transparent desktop-footer">
