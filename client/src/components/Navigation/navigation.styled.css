@@ -1,5 +1,5 @@
 .navWrapper {
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   display: flex;
@@ -82,7 +82,6 @@
   height: 100vh;
   z-index: 0 !important;
   backdrop-filter: var(--blur-effect);
-  background-color: var(--blur-colorDark);
   -webkit-backdrop-filter: blur(12px);
   
   
@@ -95,7 +94,7 @@
   height: 100vh;
   width: 100vw;
   padding-top: 8rem;
-  position: relative; 
+  /* position: relative;  */
   
  
 }
