@@ -239,6 +239,7 @@ export default function Home() {
                     lineHeight: "100%",
                     letterSpacing: "0%",
                   }}
+                  onClick={() => (window.location.href = "/all-events")}
                 >
                   {label}
                 </button>

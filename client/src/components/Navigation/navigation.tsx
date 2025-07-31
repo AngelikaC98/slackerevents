@@ -17,7 +17,7 @@ import Profile2 from "../../../public/assets/icons/profile2.jsx";
 import Button from "@/components/UI/UniversalButton/button";
 import Footer from "@/components/Footer/Footer";
 import MobileMenuFooter from "./MobileMenuFooter";
-import LoginModal from "@/components/LoginModal/LoginModal";
+
 import { useTranslation } from "@/hooks/useTranslation";
 // ------------ Styling ---------------
 import "./navigation.styled.css";
@@ -53,7 +53,7 @@ const Navigation: React.FC = () => {
 
   // Routing and session hooks
   const pathname = usePathname();
-  // const router = useRouter();
+  const router = useRouter();
   const { data: session } = useSession();
   const isLoggedIn = !!session;
 
@@ -143,7 +143,7 @@ const Navigation: React.FC = () => {
                 <Button
                   onClick={() => {
                     if (!isLoggedIn) {
-                      setLoginModalOpen(true);
+                      router.push("/login"); // Navigate to login page
                     } else {
                       setUserMenuOpen((value) => !value);
                     }
@@ -242,7 +242,7 @@ const Navigation: React.FC = () => {
                 <button
                   onClick={() => {
                     setMenuOpen(false);
-                    setLoginModalOpen(true);
+                    router.push("/login"); // Navigate to login page
                   }}
                   aria-label="Login"
                   className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
@@ -252,7 +252,7 @@ const Navigation: React.FC = () => {
                     alt="Profile"
                     width={32}
                     height={32}
-                    className="w-9 h-9"
+                    className="w-9 h-9 profileIcon"
                   />
                 </button>
               ) : (
@@ -286,14 +286,6 @@ const Navigation: React.FC = () => {
           <Footer />
         </div>
       )}
-
-      {/* Login Modal */}
-      <LoginModal
-        isOpen={loginModalOpen}
-        onClose={() => setLoginModalOpen(false)}
-        onBack={() => setLoginModalOpen(false)}
-        callbackUrl={pathname || "/"}
-      />
     </>
   );
 };
