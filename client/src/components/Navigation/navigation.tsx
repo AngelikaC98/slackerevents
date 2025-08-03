@@ -245,7 +245,7 @@ const Navigation: React.FC = () => {
                     router.push("/login"); // Navigate to login page
                   }}
                   aria-label="Login"
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                  className="focus:outline-none rounded"
                 >
                   <Image
                     src={profile}
