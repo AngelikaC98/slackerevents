@@ -83,7 +83,7 @@ export default function Events() {
       </div>
 
       {/* Event grid */}
-      <div className="grid relative gap-6">
+      <div className="flex mx-auto justify-center sm:flex-col md:flex-col lg:flex-row 2xl:justify-between px-4 flex-row gap-10  items-center flex-wrap ">
      {events.map((event) => (
   <CardEvent
     key={event.id}
