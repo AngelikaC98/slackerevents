@@ -371,7 +371,7 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                 style={{ marginLeft: "40px" }}
               >
                 <a
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/slackerevents"
                   className="transition hover:scale-110"
                   style={{
                     animation: "jump 0.8s ease-in-out infinite",
@@ -390,7 +390,7 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                   />
                 </a>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/slackerevents?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   className="transition hover:scale-110"
                   style={{
                     animation: "jump 0.8s ease-in-out infinite",
