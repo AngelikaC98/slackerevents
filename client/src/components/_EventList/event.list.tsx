@@ -50,7 +50,7 @@ export default function Events() {
     <div className="pt-10 px-12 gap-10 ">
       <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center h-[36px] w-[100px] bg-white text-[var(--color-textBlack)] text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
+              className="flex items-center h-[28px] sm:h[28px] xl:h[36px] w-[100px] bg-white text-[var(--color-textBlack)] text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
             >
               <div className="flex items-center gap-2 justify-center">
               <span className="text-xs ">☰ </span> Filter
@@ -61,7 +61,7 @@ export default function Events() {
       <div className="flex flex-wrap gap-4 mb-6 mt-4">
         <button
           onClick={() => setSelectedCategory(null)}
-          className={`px-3 py-1 h-[36px] w-[100px] rounded-full ${
+          className={` flex justify-center items-center px-3 py-1 h-[28px] sm:h[28px] xl:h[36px] w-[100px] rounded-full ${
             selectedCategory === null
               ? "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)]"
               : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
@@ -73,7 +73,7 @@ export default function Events() {
           <button
             key={cat.id}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3 py-1 rounded-full h-[36px] w-[100px] ${
+            className={`px-3 py-1 rounded-full flex items-center justify-center h-[28px] sm:h[28px] xl:h[36px] w-[100px] ${
               selectedCategory?.id === cat.id
                 ? " bg-[var(--color-acidYellow)] text-[var(--color-textBlack)] "
                 : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
