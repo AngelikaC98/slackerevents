@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+      '4xl': ['32px', { lineHeight: '1.2' }],
+    },  // <-- Add this closing brace
       fontFamily: {
         squada: ["'Squada One'", "sans-serif"],
       },
