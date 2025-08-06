@@ -18,7 +18,7 @@ const variants = {
 const Button = ({
   children,
   variant = "default",
-  className = " z-10  flex items-center justify-center border border-[var(--color-acidYellow)] text-[var(--color-acidYellow)] text-3xl h-[34px] w-[34px] sm:w-[38px] md:w-[38px] lg:w-[38px] xl:w-[38px] rounded-xl",
+  className = " z-50  flex items-center justify-center border border-[var(--color-acidYellow)] text-[var(--color-acidYellow)] text-3xl h-[34px] w-[34px] sm:w-[38px] md:w-[38px] lg:w-[38px] xl:w-[38px] rounded-xl",
   ...props
 }: ButtonProps) => (
   <button

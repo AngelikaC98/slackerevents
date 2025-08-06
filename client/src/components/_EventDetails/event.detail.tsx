@@ -28,6 +28,7 @@ import Schedule from "../../../public/assets/icons/schedule.jsx";
 const EventDetail: React.FC = () => {
   const params = useParams();
   const id = params?.id?.toString() ?? "";
+  
 
   const { data: events, loading, error } = useEvents();
 
@@ -40,7 +41,7 @@ const EventDetail: React.FC = () => {
   if (loading) return <p>Loading events...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!event) return <p className="text-red-500">Event not found 😵</p>;
-
+console.log ("Event", event)
   const handleBuyTicket = () => {
     // Open PaymentModal with selected quantity
     setShowModal(true);
