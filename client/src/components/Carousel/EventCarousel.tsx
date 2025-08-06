@@ -183,7 +183,7 @@ export default function EventCarousel({
       </div>
 
       {/* Navigation Buttons Below Photos */}
-      <div className="bg-[#1A1A1A] py-6">
+      <div className="bg-transparent py-6">
         {/* More Info Button */}
         <div className="flex justify-center mb-6">
           <button
