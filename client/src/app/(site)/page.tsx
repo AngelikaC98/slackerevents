@@ -109,10 +109,7 @@ export default function Home() {
              padding: 8px 24px;
            }
            
-           .category-button {
-             font-size: 22px;
-             height: 42px;
-           }
+          
 
            .desktop-see-all-btn {
              width: auto !important;
@@ -127,9 +124,7 @@ export default function Home() {
              padding: 0 3rem;
            }
            
-           .desktop-events-section {
-             padding: 6rem 3rem;
-           }
+           
            
            .desktop-events-grid {
              gap: 3rem;
@@ -175,7 +170,7 @@ export default function Home() {
       {styleTag}
       <div className=" text-white font-sans">
         {/* ✅ Hero Carousel */}
-        <div className="desktop-container ">
+        <div className="w-full flex justify-center items-center">
           <EventCarousel />
         </div>
         {/* filters connected with backend */}
@@ -183,7 +178,7 @@ export default function Home() {
           <div className="flex flex-col items-end gap-2 mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 bg-white text-black text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
+              className="flex items-center gap-2  h-[28px] sm:h[28px] xl:h[36px] bg-white text-black text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
             >
               <span className="text-xs">☰</span> Filter
             </button>
@@ -192,7 +187,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className={`px-3 py-1 h-[36px] w-[100px] rounded-full ${
+                  className={`px-3 flex justify-center items-center py-1 h-[28px] sm:h[28px] xl:h[36px] w-[100px] rounded-full ${
                     selectedCategory === null
                       ? "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)]"
                       : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
@@ -204,7 +199,7 @@ export default function Home() {
                   <button
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`px-3 py-1 rounded-full h-[36px] w-[100px] ${
+                    className={`px-3 py-1 flex items-center justify-center rounded-full  w-[100px] h-[28px] sm:h[28px] xl:h[36px] ${
                       selectedCategory?.id === cat.id
                         ? " bg-[var(--color-acidYellow)] text-[var(--color-textBlack)] "
                         : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
