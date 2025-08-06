@@ -107,7 +107,7 @@ export default function EventCarousel({
                     {/* Content */}
                     <div className="absolute inset-0 flex items-center justify-center text-center text-white pt-20">
                       <div className="px-4 transform group-hover:scale-105 transition-transform duration-300">
-                        <h2 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
+                        <h2 className="text-4xl font-bold mb-4 drop-shadow-2xl">
                           {slide.title}
                         </h2>
                         {slide.subtitle && (
@@ -137,11 +137,11 @@ export default function EventCarousel({
                   {/* Content */}
                   <div className="absolute inset-0 flex items-center justify-center text-center text-white pt-20">
                     <div className="px-4">
-                      <h2 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-2xl">
+                      <h2 className="text-4xl font-bold mb-4 drop-shadow-2xl">
                         {slide.title}
                       </h2>
                       {slide.subtitle && (
-                        <p className="text-lg md:text-xl text-gray-200 drop-shadow-lg">
+                        <p className="text-gray-200 drop-shadow-lg">
                           {slide.subtitle}
                         </p>
                       )}
