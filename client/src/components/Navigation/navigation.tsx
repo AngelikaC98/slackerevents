@@ -125,7 +125,7 @@ const Navigation: React.FC = () => {
                   <Link
                     key={to}
                     href={to}
-                    className={`p-[10px_20px] text-2xl font-semibold rounded-full transition-all duration-300 
+                    className={`p-[10px_20px] text-4xl font-semibold rounded-full transition-all duration-300 
                   text-[var(--color-acidYellow)] 
                   hover:bg-[var(--color-acidYellow)] hover:text-[var(--color-textBlack)] 
                   ${
@@ -209,7 +209,7 @@ const Navigation: React.FC = () => {
                       setMenuOpen(false);
                       setLoginModalOpen(true);
                     }}
-                    className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition`}
+                    className={`text-[var(--color-acidYellow)] text-4xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition`}
                   >
                     {text}
                   </button>
@@ -218,7 +218,7 @@ const Navigation: React.FC = () => {
                     key={to}
                     href={to}
                     onClick={() => setMenuOpen(false)}
-                    className={`text-[var(--color-acidYellow)] text-2xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
+                    className={`text-[var(--color-acidYellow)] text-4xl font-bold py-4 w-full text-right hover:text-[var(--color-text)] transition ${
                       pathname === to ? "text-[var(--color-acidYellow)]" : ""
                     }`}
                   >
