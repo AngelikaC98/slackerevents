@@ -22,7 +22,7 @@ export default function Home() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Upcoming");
-    // State for PaymentModal
+  // State for PaymentModal
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
@@ -33,10 +33,17 @@ export default function Home() {
         : [...prev, filter]
     );
   };
+
+  const { data: categories, loading: loadingCategories } = useCategories();
+  // Sort categories by their sort order
+  const sortedCategories = [...(categories ?? [])].sort(
+    (a, b) =>
+      (typeof a.sort === "number" ? a.sort : Infinity) -
+      (typeof b.sort === "number" ? b.sort : Infinity)
+  );
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
-  const { data: categories, loading: loadingCategories } = useCategories();
   const {
     data: events,
     loading: loadingEvents,
@@ -44,15 +51,6 @@ export default function Home() {
   } = useEvents(
     selectedCategory ? { category: selectedCategory.category_name } : undefined
   );
-
-  const filters = [
-    "Hip Hop",
-    "Pop",
-    "Tiny Desk Concert",
-    "Free Concerts",
-    "Jazz",
-    "Foreign",
-  ];
 
   const styleTag = (
     <style>
@@ -172,8 +170,6 @@ export default function Home() {
     </style>
   );
 
-
-
   return (
     <>
       {styleTag}
@@ -182,92 +178,96 @@ export default function Home() {
         <div className="desktop-container ">
           <EventCarousel />
         </div>
-        {/* Events */}
+        {/* filters connected with backend */}
         <div className="desktop-container pb-12">
-          <div className="flex justify-end mb-4">
+          <div className="flex flex-col items-end gap-2 mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center gap-2 bg-white text-black text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
             >
               <span className="text-xs">☰</span> Filter
             </button>
+
+            {showFilters && (
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className={`px-3 py-1 h-[36px] w-[100px] rounded-full ${
+                    selectedCategory === null
+                      ? "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)]"
+                      : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
+                  }`}
+                >
+                  All
+                </button>
+                {sortedCategories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`px-3 py-1 rounded-full h-[36px] w-[100px] ${
+                      selectedCategory?.id === cat.id
+                        ? " bg-[var(--color-acidYellow)] text-[var(--color-textBlack)] "
+                        : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
+                    }`}
+                  >
+                    {cat.category_name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {showFilters && (
-            <div className="flex justify-end mb-6">
-              <div className="flex flex-wrap gap-4">
-                {filters.map((label) => {
-                  const isActive = selectedFilters.includes(label);
-                  return (
-                    <button
-                      key={label}
-                      onClick={() => toggleFilter(label)}
-                      className={`px-4 py-1 rounded-full text-sm border transition-colors ${
-                        isActive
-                          ? "bg-[#EFFF00] text-black border-[#EFFF00]"
-                          : "border-gray-400 text-white hover:border-white"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
+          {/* Upcoming and recomendation button, we need connect them with backend, because it is static for now */}
+          <div className="flex justify-between ">
+            <div className="flex gap-4  ">
+              {["Upcoming", "Recommendation"].map((label) => {
+                const isActive = activeCategory === label;
+                const buttonWidth =
+                  label === "Recommendation" ? "160px" : "111px";
+                return (
+                  <button
+                    key={label}
+                    onClick={() => setActiveCategory(label)}
+                    className={`transition-colors ${
+                      isActive
+                        ? "bg-[#EFFF00] text-black"
+                        : "bg-transparent text-[#EFFF00] hover:bg-[#EFFF00] hover:text-black"
+                    }`}
+                    style={{
+                      borderRadius: "9999px",
+                      width: buttonWidth,
+                      height: "37px",
+                      fontWeight: 400,
+                      fontSize: "20px",
+                      lineHeight: "100%",
+                      letterSpacing: "0%",
+                    }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
-          )}
-{/* Upcoming and recomendation button, we need connect them with backend, because it is static for now */ }
-         <div className="flex justify-between ">
-          <div className="flex gap-4  ">
-            {["Upcoming", "Recommendation"].map((label) => {
-              const isActive = activeCategory === label;
-              const buttonWidth =
-                label === "Recommendation" ? "160px" : "111px";
-              return (
+            {/* See all events section */}
+            <div className="mb-6">
+              <div className="flex justify-end mb-4">
                 <button
-                  key={label}
-                  onClick={() => setActiveCategory(label)}
-                  className={`transition-colors ${
-                    isActive
-                      ? "bg-[#EFFF00] text-black"
-                      : "bg-transparent text-[#EFFF00] hover:bg-[#EFFF00] hover:text-black"
-                  }`}
+                  className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
                   style={{
-                    borderRadius: "9999px",
-                    width: buttonWidth,
-                    height: "37px",
+                    padding: "16px",
                     fontWeight: 400,
-                    fontSize: "20px",
+                    fontSize: "14px",
                     lineHeight: "100%",
                     letterSpacing: "0%",
                   }}
-                  
+                  onClick={() => (window.location.href = "/all-events")}
                 >
-                  {label}
+                  See all events
                 </button>
-              );
-            })}
+              </div>
             </div>
-                 {/* See all events section */}
-          <div className="mb-6">
-            <div className="flex justify-end mb-4">
-              <button
-                className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
-                style={{
-                  padding: "16px",
-                  fontWeight: 400,
-                  fontSize: "14px",
-                  lineHeight: "100%",
-                  letterSpacing: "0%",
-                }}
-                onClick={() => (window.location.href = "/all-events")}
-              >
-                See all events
-              </button>
-            </div>
-          </div>
           </div>
 
-     
           {/* Single event preview - will expand to multiple events later */}
           <div
             className="overflow-x-auto 
@@ -284,33 +284,32 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                     setShowPaymentModal(true);
                   }}
                 />
-                 {/* PaymentModal */}
-                      {showPaymentModal && selectedEvent && (
-                        <PaymentModal
-                          eventData={{
-                            id: selectedEvent.id,
-                            title: selectedEvent.title,
-                            price: selectedEvent.price || 0,
-                            venue: `${selectedEvent.venue?.place || ""}, ${
-                              selectedEvent.venue?.city?.city_name || ""
-                            }`,
-                            date: new Date(selectedEvent.start_date || "").toLocaleDateString(
-                              "en-US",
-                              {
-                                weekday: "long",
-                                day: "numeric",
-                                month: "long",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            ),
-                          }}
-                          onClose={() => {
-                            setShowPaymentModal(false);
-                            setSelectedEvent(null);
-                          }}
-                        />
-                      )}
+                {/* PaymentModal */}
+                {showPaymentModal && selectedEvent && (
+                  <PaymentModal
+                    eventData={{
+                      id: selectedEvent.id,
+                      title: selectedEvent.title,
+                      price: selectedEvent.price || 0,
+                      venue: `${selectedEvent.venue?.place || ""}, ${
+                        selectedEvent.venue?.city?.city_name || ""
+                      }`,
+                      date: new Date(
+                        selectedEvent.start_date || ""
+                      ).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      }),
+                    }}
+                    onClose={() => {
+                      setShowPaymentModal(false);
+                      setSelectedEvent(null);
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
