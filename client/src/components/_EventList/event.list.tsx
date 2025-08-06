@@ -31,6 +31,7 @@ export default function Events() {
   } = useEvents(
     selectedCategory ? { category: selectedCategory.category_name } : undefined
   );
+  const [showFilters, setShowFilters] = useState(false);
 
   // Loading and error states
   if (loadingCategories || loadingEvents) return <p>⏳ Loading…</p>;
@@ -46,15 +47,24 @@ export default function Events() {
 
   // ------------ Render ---------------
   return (
-    <div className="pt-36 px-12 ">
+    <div className="pt-10 px-12 gap-10 ">
+      <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center h-[36px] w-[100px] bg-white text-[var(--color-textBlack)] text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
+            >
+              <div className="flex items-center gap-2 justify-center">
+              <span className="text-xs ">☰ </span> Filter
+              </div>
+            </button>
       {/* Category filter buttons */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      {showFilters && (
+      <div className="flex flex-wrap gap-4 mb-6 mt-4">
         <button
           onClick={() => setSelectedCategory(null)}
-          className={`px-3 py-1 rounded ${
+          className={`px-3 py-1 h-[36px] w-[100px] rounded-full ${
             selectedCategory === null
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-800"
+              ? "bg-[var(--color-acidYellow)] text-[var(--color-textBlack)]"
+              : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
           }`}
         >
           All
@@ -63,17 +73,19 @@ export default function Events() {
           <button
             key={cat.id}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-3 py-1 rounded ${
+            className={`px-3 py-1 rounded-full h-[36px] w-[100px] ${
               selectedCategory?.id === cat.id
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 text-gray-800"
+                ? " bg-[var(--color-acidYellow)] text-[var(--color-textBlack)] "
+                : "border border-[var(--color-text)] text-[var(--color-text)] hover:border-white"
             }`}
           >
             {cat.category_name}
           </button>
         ))}
       </div>
+      )}
 
+      {/* No events message */}
       {/* Event grid */}
       <div className="flex mx-auto justify-center sm:flex-col md:flex-col lg:flex-row 2xl:justify-between px-4 flex-row gap-10  items-center flex-wrap ">
         {events.map((event) => (
@@ -87,6 +99,7 @@ export default function Events() {
           />
         ))}
       </div>
+    
 
       {/* PaymentModal */}
       {showPaymentModal && selectedEvent && (
