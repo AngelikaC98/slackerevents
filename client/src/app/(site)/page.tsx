@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import CardEvent from "@/components/cardEvent/cardEvent";
 import { useEvents } from "@/hooks/useEvents";
 import type { Category, Event } from "@/types";
 import { useCategories } from "@/hooks/useCategories";
+import PaymentModal from "@/components/PaymentModal/page";
 
 // State for selected category filter
 
@@ -22,6 +22,9 @@ export default function Home() {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
   const [activeCategory, setActiveCategory] = useState("Upcoming");
+    // State for PaymentModal
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const toggleFilter = (filter: string) => {
     setSelectedFilters((prev) =>
@@ -33,7 +36,6 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { data: categories, loading: loadingCategories } = useCategories();
   const {
     data: events,
@@ -170,24 +172,22 @@ export default function Home() {
     </style>
   );
 
-  function setShowPaymentModal(arg0: boolean) {
-    throw new Error("Function not implemented.");
-  }
+
 
   return (
     <>
       {styleTag}
       <div className=" text-white font-sans">
         {/* ✅ Hero Carousel */}
-        <div className="desktop-container">
+        <div className="desktop-container ">
           <EventCarousel />
         </div>
         {/* Events */}
-        <div className="desktop-container">
+        <div className="desktop-container pb-12">
           <div className="flex justify-end mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 bg-white text-[var(--text-colorBlack)] text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
+              className="flex items-center gap-2 bg-white text-black text-sm font-semibold px-4 py-1 rounded-full hover:opacity-90 filter-button"
             >
               <span className="text-xs">☰</span> Filter
             </button>
@@ -215,8 +215,9 @@ export default function Home() {
               </div>
             </div>
           )}
-
-          <div className="flex gap-4 mb-6">
+{/* Upcoming and recomendation button, we need connect them with backend, because it is static for now */ }
+         <div className="flex justify-between ">
+          <div className="flex gap-4  ">
             {["Upcoming", "Recommendation"].map((label) => {
               const isActive = activeCategory === label;
               const buttonWidth =
@@ -239,27 +240,24 @@ export default function Home() {
                     lineHeight: "100%",
                     letterSpacing: "0%",
                   }}
-                  onClick={() => (window.location.href = "/all-events")}
+                  
                 >
                   {label}
                 </button>
               );
             })}
-          </div>
-
-          {/* See all events section */}
+            </div>
+                 {/* See all events section */}
           <div className="mb-6">
             <div className="flex justify-end mb-4">
               <button
                 className="text-white hover:text-gray-300 transition-colors desktop-see-all-btn"
                 style={{
-                  width: "389px",
                   padding: "16px",
                   fontWeight: 400,
                   fontSize: "14px",
                   lineHeight: "100%",
                   letterSpacing: "0%",
-                  textAlign: "right",
                 }}
                 onClick={() => (window.location.href = "/all-events")}
               >
@@ -267,6 +265,9 @@ export default function Home() {
               </button>
             </div>
           </div>
+          </div>
+
+     
           {/* Single event preview - will expand to multiple events later */}
           <div
             className="overflow-x-auto 
@@ -283,6 +284,33 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                     setShowPaymentModal(true);
                   }}
                 />
+                 {/* PaymentModal */}
+                      {showPaymentModal && selectedEvent && (
+                        <PaymentModal
+                          eventData={{
+                            id: selectedEvent.id,
+                            title: selectedEvent.title,
+                            price: selectedEvent.price || 0,
+                            venue: `${selectedEvent.venue?.place || ""}, ${
+                              selectedEvent.venue?.city?.city_name || ""
+                            }`,
+                            date: new Date(selectedEvent.start_date || "").toLocaleDateString(
+                              "en-US",
+                              {
+                                weekday: "long",
+                                day: "numeric",
+                                month: "long",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            ),
+                          }}
+                          onClose={() => {
+                            setShowPaymentModal(false);
+                            setSelectedEvent(null);
+                          }}
+                        />
+                      )}
               </div>
             ))}
           </div>
@@ -292,7 +320,7 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
       </div>
 
       {/* Events picture */}
-      <div className="mb-6">
+      <div className="px-6 sm:px-6 md:px-6 lg:px-6 xl:px-12">
         <div className="flex justify-between items-center mb-6">
           <h2
             style={{
@@ -330,9 +358,8 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
           {[27, 47, 48, 49].map((frameNumber, index) => (
             <div
               key={index}
-              className="mx-auto desktop-event-frame"
+              className="mx-auto desktop-event-frame w-[150px] sm:w-[150px] md:w-[200px] lg:w-[200px] xl:w-[220px]"
               style={{
-                width: "full",
                 height: "222px",
                 borderRadius: "16px",
                 border: "1px solid #EFFF00",

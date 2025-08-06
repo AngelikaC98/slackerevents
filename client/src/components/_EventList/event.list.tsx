@@ -4,16 +4,8 @@ import type { Category, Event } from "@/types";
 import { useEvents } from "@/hooks/useEvents";
 import { useState } from "react";
 import { useCategories } from "@/hooks/useCategories";
-import CardButton from "@/components/UI/CardPaymentButton/cardButton";
-import Link from "next/link";
 import PaymentModal from "@/components/PaymentModal/page";
-import ImageUrlorIDCard from "../Media/image/imageCard/ImageUrlorIDCard";
 import CardEvent from "../cardEvent/cardEvent";
-
-// ------------ Props ---------------
-type EventsProps = {
-  // Remove onCheckout since we'll handle it internally now
-};
 
 /**
  * Events
@@ -84,16 +76,16 @@ export default function Events() {
 
       {/* Event grid */}
       <div className="flex mx-auto justify-center sm:flex-col md:flex-col lg:flex-row 2xl:justify-between px-4 flex-row gap-10  items-center flex-wrap ">
-     {events.map((event) => (
-  <CardEvent
-    key={event.id}
-    event={event}
-    onBuy={(e) => {
-      setSelectedEvent(e);
-      setShowPaymentModal(true);
-    }}
-  />
-))}
+        {events.map((event) => (
+          <CardEvent
+            key={event.id}
+            event={event}
+            onBuy={(e) => {
+              setSelectedEvent(e);
+              setShowPaymentModal(true);
+            }}
+          />
+        ))}
       </div>
 
       {/* PaymentModal */}
