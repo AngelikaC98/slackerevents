@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaSnapchat,
+} from "react-icons/fa";
 import CardEvent from "@/components/cardEvent/cardEvent";
 import { useEvents } from "@/hooks/useEvents";
 import type { Category, Event } from "@/types";
@@ -430,7 +435,7 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                   />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.snapchat.com/"
                   className="transition hover:scale-110"
                   style={{
                     animation: "jump 0.8s ease-in-out infinite",
@@ -443,7 +448,7 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
                     e.currentTarget.style.animationPlayState = "running";
                   }}
                 >
-                  <FaLinkedinIn
+                  <FaSnapchat
                     className="text-white hover:text-[#EFFF00] hover:brightness-125"
                     size={40}
                   />
