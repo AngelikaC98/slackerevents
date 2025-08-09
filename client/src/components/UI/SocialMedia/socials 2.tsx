@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Facebook from "../../../../public/assets/icons/Facebook.svg";
 import Instagram from "../../../../public/assets/icons/Insta.svg";
-import Snapchat from "../../../../public/assets/icons/Snapchat.svg";
+import LinkedIn from "../../../../public/assets/icons/linkedin.svg";
 
 const Socials: React.FC = () => {
   return (
@@ -40,13 +40,13 @@ const Socials: React.FC = () => {
 
       <li className="text-center">
         <a
-          href="https://www.snapchat.com/"
+          href="https://www.linkedin.com/company/slackerevents"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
-            src={Snapchat}
-            alt="Snapchat"
+            src={LinkedIn}
+            alt="LinkedIn"
             width={32}
             height={32}
             className="mx-auto"
