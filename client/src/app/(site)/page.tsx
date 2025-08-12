@@ -472,7 +472,14 @@ scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visi
           </div>
 
           <div className="text-center text-sm text-[#EFFF00] mt-8">
-            <p>© 2025 by Vefkraft</p>
+            <a
+              href="https://vefkraft.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              © 2025 by Vefkraft
+            </a>
           </div>
         </div>
       </footer>
