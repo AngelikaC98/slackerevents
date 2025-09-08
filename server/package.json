@@ -7,16 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf node_modules package-lock.json",
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=8056 npx directus start"
-    
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@directus/sdk": "^20.0.3",
     "cloudinary": "2.7.0",
     "directus": "11.8.0",
-    "pg": "8.16.0",
-    "@directus/sdk": "13.0.2"
+    "pg": "8.16.0"
   }
 }
