@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Facebook from "../../../../public/assets/icons/Facebook.svg";
 import Instagram from "../../../../public/assets/icons/Insta.svg";
-import LinkedIn from "../../../../public/assets/icons/linkedin.svg";
+import LinkedIn from "../../../../public/assets/icons/tiktok-outline-svgrepo-com.svg";
 
 const Socials: React.FC = () => {
   return (
@@ -40,7 +40,7 @@ const Socials: React.FC = () => {
 
       <li className="text-center">
         <a
-          href="https://www.linkedin.com/company/slackerevents"
+          href="https://www.tiktok.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
