@@ -62,7 +62,7 @@ const Navigation: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [setLoginModalOpen] = useState(false);
 
   // Ref for user dropdown (to detect outside clicks)
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);

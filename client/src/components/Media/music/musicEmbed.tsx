@@ -15,4 +15,7 @@ const MusicEmbed: React.FC<MusicEmbedProps> = React.memo(({ embedCode }) => {
   );
 });
 
+// FIX: Explicitly set the display name
+MusicEmbed.displayName = "MusicEmbed"; // <-- ADD THIS LINE
+
 export default MusicEmbed;
