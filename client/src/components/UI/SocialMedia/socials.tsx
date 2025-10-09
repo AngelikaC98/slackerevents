@@ -6,55 +6,6 @@ import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 
 const Socials: React.FC = () => {
   return (
-    // <ul className="flex justify-center items-center space-x-6">
-    //   <li className="text-center">
-    //     <a
-    //       href="https://www.instagram.com/slackerevents"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         src={Instagram}
-    //         alt="Instagram"
-    //         width={32}
-    //         height={32}
-    //         className="mx-auto"
-    //       />
-    //     </a>
-    //   </li>
-
-    //   <li className="text-center">
-    //     <a
-    //       href="https://www.facebook.com/slackerevents/"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         src={Facebook}
-    //         alt="Facebook"
-    //         width={32}
-    //         height={32}
-    //         className="mx-auto"
-    //       />
-    //     </a>
-    //   </li>
-
-    //   <li className="text-center">
-    //     <a
-    //       href="https://www.tiktok.com/"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         src={Tiktok}
-    //         alt="Snapchat"
-    //         width={32}
-    //         height={32}
-    //         className="mx-auto"
-    //       />
-    //     </a>
-    //   </li>
-    // </ul>
     <div
       className="flex gap-6 justify-center items-center w-full"
       style={{ marginLeft: "40px" }}

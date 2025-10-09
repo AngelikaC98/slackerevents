@@ -1,3 +1,50 @@
+// "use client";
+// // ------------ Imports ---------------
+// import Events from "@/components/_EventList/event.list";
+// import { useState } from "react";
+// import type { Event } from "@/types";
+
+// /**
+//  * EventListPage
+//  * -------------
+//  * Displays all events and handles ticket purchase modal.
+//  */
+// export default function EventListPage() {
+//   // State for modal: holds event, quantity, and total price
+//   const [modal, setModal] = useState<null | { event: Event; qty: number; total: number }>(null);
+
+//   return (
+//     <>
+//       {/* Event list with checkout handler */}
+//       <Events onCheckout={(data) => setModal(data)} />
+
+//       {/* Simulated payment modal */}
+//       {modal && (
+//         <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+//           <div className="bg-white p-8 rounded shadow-lg">
+//             <h2 className="text-xl font-bold mb-4">Simulated Payment Modal</h2>
+//             <p className="mb-2">
+//               Event: <b>{modal.event.title}</b>
+//             </p>
+//             <p className="mb-2">
+//               Tickets: <b>{modal.qty}</b>
+//             </p>
+//             <p className="mb-4">
+//               Total: <b>{modal.total} kr.</b>
+//             </p>
+//             <button
+//               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+//               onClick={() => setModal(null)}
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
+// }
+
 "use client";
 // ------------ Imports ---------------
 import Events from "@/components/_EventList/event.list";
@@ -7,44 +54,19 @@ import type { Event } from "@/types";
 /**
  * EventListPage
  * -------------
- * Displays all events and handles ticket purchase modal.
+ * Displays all events.
+ * (Note: Modal logic is now self-contained within the Events component.)
  */
 export default function EventListPage() {
-  // State for modal: holds event, quantity, and total price
-  const [modal, setModal] = useState<null | { event: Event; qty: number; total: number }>(null);
+  // Removed unused 'modal' state
+  // The Events component is now entirely responsible for its own UI and modal handling.
 
   return (
     <>
-      {/* Event list with checkout handler */}
-      <Events onCheckout={(data) => setModal(data)} />
+      {/* Event list (now renders its own data and modal) */}
+      <Events />
 
-
-
-
-
-      {/* Simulated payment modal */}
-      {modal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-          <div className="bg-white p-8 rounded shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Simulated Payment Modal</h2>
-            <p className="mb-2">
-              Event: <b>{modal.event.title}</b>
-            </p>
-            <p className="mb-2">
-              Tickets: <b>{modal.qty}</b>
-            </p>
-            <p className="mb-4">
-              Total: <b>{modal.total} kr.</b>
-            </p>
-            <button
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-              onClick={() => setModal(null)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Removed obsolete 'modal' component logic */}
     </>
   );
 }
