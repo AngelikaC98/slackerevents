@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Facebook from "../../../../public/assets/icons/Facebook.svg";
 import Instagram from "../../../../public/assets/icons/Insta.svg";
-import Snapchat from "../../../../public/assets/icons/Snapchat.svg";
+import Tiktok from "../../../../public/assets/icons/tiktok-round-white-icon.svg";
 
 const Socials: React.FC = () => {
   return (
@@ -40,12 +40,12 @@ const Socials: React.FC = () => {
 
       <li className="text-center">
         <a
-          href="https://www.snapchat.com/"
+          href="https://www.tiktok.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Image
-            src={Snapchat}
+            src={Tiktok}
             alt="Snapchat"
             width={32}
             height={32}
