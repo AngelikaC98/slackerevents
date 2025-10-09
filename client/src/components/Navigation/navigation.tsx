@@ -1,5 +1,6 @@
 "use client";
 // ------------ Imports ---------------
+
 import { useState, useEffect, useRef } from "react";
 import { slide as Menu } from "react-burger-menu";
 import { usePathname, useRouter } from "next/navigation";
