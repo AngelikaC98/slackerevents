@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf node_modules package-lock.json",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=8056 npx directus start"
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=8056 npx directus start",
+    "start": "npx directus bootstrap && npx directus start"
   },
   "keywords": [],
   "author": "",
