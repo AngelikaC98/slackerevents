@@ -270,9 +270,8 @@ scroll-snap-stop:always
 scroll-behavior:auto flex gap-8 sm:gap-6 sm:grid sm:grid-cols-3 sm:overflow-visible"
           >
             {(events ?? []).map((event) => (
-              <div className="shrink-0 w-[340px] sm:w-auto p-4">
+              <div key={event.id} className="shrink-0 w-[340px] sm:w-auto p-4">
                 <CardEvent
-                  key={event.id}
                   event={event}
                   onBuy={(e) => {
                     setSelectedEvent(e);
