@@ -11,7 +11,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^7.4.0",
-    "next": "15.3.3",
+    "next": "15.3.8",
     "next-auth": "^5.0.0-beta.28",
     "next-intl": "^4.3.4",
     "preact": "^10.27.0",
